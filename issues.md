@@ -1,8 +1,8 @@
 ## Resolved Issues ##
 - **[0]** Init repository and workspace
+- **[1]** Need a skeletal, executable game with splash-screen
 
 ## Open Issues ##
-- **[1]** Need a skeletal, executable game with splash-screen
 - **[3]** Grid layout with walls
 - **[4]** Player and player movement/collision
 - **[5]** Boulder and boulder functionality

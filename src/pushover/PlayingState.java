@@ -13,10 +13,10 @@ import org.newdawn.slick.state.transition.HorizontalSplitTransition;
 import jig.Vector;
 import pushover.Pushover;
 
-public class StartUpState extends BasicGameState {
+public class PlayingState extends BasicGameState {
     @Override
     public int getID() {
-        return Pushover.STARTUPSTATE;
+        return Pushover.PLAYINGSTATE;
     }
 
     @Override
@@ -26,18 +26,11 @@ public class StartUpState extends BasicGameState {
 
     @Override
     public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
-        g.drawImage(ResourceManager.getImage(Pushover.STARTUP_SCREEN_RES), 0, 0);		
 
     }
 
     @Override
     public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
-        Input input = container.getInput();
-		Pushover pushover = (Pushover)game;
-		//Await user input to start the game
-		if (input.isKeyDown(Input.KEY_SPACE)){ 	
-            pushover.enterState(Pushover.PLAYINGSTATE, new EmptyTransition(), new HorizontalSplitTransition());
-    
-        }
+        
     }
 }
