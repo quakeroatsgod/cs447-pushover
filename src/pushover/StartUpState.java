@@ -26,8 +26,7 @@ public class StartUpState extends BasicGameState {
 
     @Override
     public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
-        g.drawImage(ResourceManager.getImage(Pushover.STARTUP_SCREEN_RES), 0, 0);		
-
+        g.drawImage(ResourceManager.getImage(Pushover.STARTUP_SCREEN_RES), 0, 100);		
     }
 
     @Override
