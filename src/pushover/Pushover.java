@@ -22,6 +22,7 @@ public class Pushover extends StateBasedGame {
     public static final String STARTUP_SCREEN_RES = "pushover/res/startup.png";
     public static final String WALL_RES = "pushover/res/wall.png";
     public static final String BLANK_RES = "pushover/res/blank-1.png";
+    public static final String PLAYER_L_RES = "pushover/res/player-left.png";
     /*
     * Creates the Pushover game frame.
     */
@@ -41,6 +42,7 @@ public class Pushover extends StateBasedGame {
         ResourceManager.loadImage(STARTUP_SCREEN_RES);
         ResourceManager.loadImage(WALL_RES);
         ResourceManager.loadImage(BLANK_RES);
+        ResourceManager.loadImage(PLAYER_L_RES);
 
     }
 

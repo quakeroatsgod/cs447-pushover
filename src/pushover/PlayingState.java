@@ -45,7 +45,6 @@ public class PlayingState extends BasicGameState {
     public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
         Pushover pushover = (Pushover)game;
         for(Grid grid_cell : pushover.grid)  grid_cell.render(g);
-        // for (Bang bang : breakout.explosions)	bang.render(g);
 
     }
 

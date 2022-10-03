@@ -14,6 +14,7 @@ public class Grid extends Entity{
         this.ent=null;
         this.type=texture;
         switch(texture){
+            case "BORDER":
             case "WALL":
                 addImageWithBoundingBox(ResourceManager.getImage(Pushover.WALL_RES));
                 this.walkable=false;
@@ -25,6 +26,10 @@ public class Grid extends Entity{
             case "DEEP_SNOW":
                 this.walkable=true;
                 this.travel_cost=2;
+                break;
+            //TODO Don't draw image here. Draw in game loop render method
+            case "PLAYER":
+                addImageWithBoundingBox(ResourceManager.getImage(Pushover.PLAYER_L_RES));
                 break;
             //Tile with no special properties, anything can move on it.
             default:
