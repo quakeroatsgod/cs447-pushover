@@ -2,9 +2,9 @@
 - **[0]** Init repository and workspace
 - **[1]** Need a skeletal, executable game with splash-screen
 - **[2]** Grid layout with walls
+- **[3]** Player and player movement/collision
 
 ## Open Issues ##
-- **[3]** Player and player movement/collision
 - **[4]** Boulder and boulder functionality
 - **[5]** Low bar enemy and AI
 - **[6]** Win/Lose conditions

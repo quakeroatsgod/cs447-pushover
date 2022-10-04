@@ -29,11 +29,12 @@ public class PlayingState extends BasicGameState {
         catch(Exception CannotOpenFile){
             CannotOpenFile.printStackTrace();
         }
+        int ID_counter=0;
         for(int x=0; x<20; x++){
             for(int y=0; y<20; y++){
                 try{
                     if(sc.hasNext()){
-                        pushover.grid.add(new Grid(sc.next(),x,y));
+                        pushover.grid.add(new Grid(sc.next(),x,y,ID_counter++));
                     }
                 }catch(NullPointerException e){ e.printStackTrace();}
             }
@@ -41,15 +42,52 @@ public class PlayingState extends BasicGameState {
         sc.close();
     }
 
+    /**
+	 * This is called when the state is entered.
+	 * @param container
+	 * @param game
+	 */
+	@Override
+	public void enter(GameContainer container, StateBasedGame game) {
+        Pushover pushover = (Pushover)game;
+        pushover.player = new Player(pushover.grid.get(283));
+    }
     @Override
     public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
         Pushover pushover = (Pushover)game;
         for(Grid grid_cell : pushover.grid)  grid_cell.render(g);
+        pushover.player.render(g);
 
     }
 
     @Override
     public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
-        
+        Pushover pushover = (Pushover)game;
+        Input input = container.getInput();
+        checkInput(input, pushover);
+        pushover.player.update(pushover,delta);
     }
+    private void checkInput(Input input, Pushover pushover){
+        //Player moves left
+        if(input.isKeyDown(Input.KEY_A)){
+            pushover.player.move((pushover.grid.get(pushover.player.grid_ID-20)),pushover.grid.get(pushover.player.grid_ID),0);
+            return;
+        }
+        //Player moves Right
+        if(input.isKeyDown(Input.KEY_D)){
+            pushover.player.move((pushover.grid.get(pushover.player.grid_ID+20)),pushover.grid.get(pushover.player.grid_ID),1);
+            return;
+        }   
+        //Player moves Down
+        if(input.isKeyDown(Input.KEY_S)){
+            pushover.player.move((pushover.grid.get(pushover.player.grid_ID+1)),pushover.grid.get(pushover.player.grid_ID),2);
+            return;
+        }
+        //Player moves Up
+        if(input.isKeyDown(Input.KEY_W)){
+            pushover.player.move((pushover.grid.get(pushover.player.grid_ID-1)),pushover.grid.get(pushover.player.grid_ID),3);
+            return;
+        }
+    }
+
 }
