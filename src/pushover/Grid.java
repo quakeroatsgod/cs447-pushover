@@ -6,12 +6,14 @@ import jig.Vector;
 public class Grid extends Entity{
     private Entity ent;
     private String type;
+    private int ID;
     public boolean walkable;
     public int travel_cost;
-    public Grid(String texture, int x_pos, int y_pos){
+    public Grid(String texture, int x_pos, int y_pos, int ID){
         //Multiply grid's position with the initializor iterator plus a screen offset.
         super(x_pos*32+24,y_pos*32+64);
         this.ent=null;
+        this.ID=ID;
         this.type=texture;
         switch(texture){
             case "BORDER":
@@ -27,10 +29,6 @@ public class Grid extends Entity{
                 this.walkable=true;
                 this.travel_cost=2;
                 break;
-            //TODO Don't draw image here. Draw in game loop render method
-            case "PLAYER":
-                addImageWithBoundingBox(ResourceManager.getImage(Pushover.PLAYER_L_RES));
-                break;
             //Tile with no special properties, anything can move on it.
             default:
                 addImageWithBoundingBox(ResourceManager.getImage(Pushover.BLANK_RES));
@@ -38,5 +36,11 @@ public class Grid extends Entity{
                 this.travel_cost=1;
                 break;
         }
+    }
+    public int getID(){
+        return this.ID;
+    }
+    public void setEntity(Entity entt){
+        this.ent=entt;
     }
 }
