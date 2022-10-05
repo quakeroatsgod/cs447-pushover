@@ -4,7 +4,7 @@ import jig.ResourceManager;
 import jig.Vector;
 
 public class Grid extends Entity{
-    private Entity ent;
+    private String entity;
     private String type;
     private int ID;
     public boolean walkable;
@@ -12,7 +12,7 @@ public class Grid extends Entity{
     public Grid(String texture, int x_pos, int y_pos, int ID){
         //Multiply grid's position with the initializor iterator plus a screen offset.
         super(x_pos*32+24,y_pos*32+64);
-        this.ent=null;
+        this.entity="";
         this.ID=ID;
         this.type=texture;
         switch(texture){
@@ -40,7 +40,16 @@ public class Grid extends Entity{
     public int getID(){
         return this.ID;
     }
-    public void setEntity(Entity entt){
-        this.ent=entt;
+    public void setEntity(String entity){
+        this.entity=entity;
+        if(entity.equals("Boulder")) {
+            this.walkable = false;
+        }
+        else{
+                this.walkable = true;
+            }
+    }
+    public String getEntity(){
+        return this.entity;
     }
 }
