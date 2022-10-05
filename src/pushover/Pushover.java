@@ -19,6 +19,8 @@ public class Pushover extends StateBasedGame {
     public final int ScreenHeight;
     public ArrayList<Grid> grid;
     public Player player;
+    //TODO maybe 2 boulders instead of 1
+    public Boulder boulder;
     //Resource strings
     public static final String STARTUP_SCREEN_RES = "pushover/res/startup.png";
     public static final String WALL_RES = "pushover/res/wall.png";
@@ -32,7 +34,7 @@ public class Pushover extends StateBasedGame {
     public static final String PLAYER_BM_RES = "pushover/res/player/player-back-moving.png";
     public static final String PLAYER_L_RES = "pushover/res/player/player-left.png";
     public static final String PLAYER_LM_RES = "pushover/res/player/player-left-moving.png";
-
+    public static final String SNOWBALL_RES = "pushover/res/snowball.png";
     
     /*
     * Creates the Pushover game frame.
@@ -61,7 +63,7 @@ public class Pushover extends StateBasedGame {
         ResourceManager.loadImage(PLAYER_BM_RES);
         ResourceManager.loadImage(PLAYER_F_RES);
         ResourceManager.loadImage(PLAYER_FM_RES);
-
+        ResourceManager.loadImage(SNOWBALL_RES);
     }
 
     public static void main(String[] args){

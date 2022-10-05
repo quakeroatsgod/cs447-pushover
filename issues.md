@@ -3,9 +3,8 @@
 - **[1]** Need a skeletal, executable game with splash-screen
 - **[2]** Grid layout with walls
 - **[3]** Player and player movement/collision
-
-## Open Issues ##
 - **[4]** Boulder and boulder functionality
+## Open Issues ##
 - **[5]** Low bar enemy and AI
 - **[6]** Win/Lose conditions
 - **[7]** Deep Snow Tiles
