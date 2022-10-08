@@ -52,6 +52,8 @@ public class PlayingState extends BasicGameState {
         Pushover pushover = (Pushover)game;
         pushover.player = new Player(pushover.grid.get(283));
         pushover.boulder = new Boulder(pushover.grid.get(284));
+        pushover.enemies.add(new Enemy(pushover.grid.get(264)));
+
     }
     @Override
     public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
@@ -59,6 +61,7 @@ public class PlayingState extends BasicGameState {
         for(Grid grid_cell : pushover.grid)  grid_cell.render(g);
         pushover.player.render(g);
         pushover.boulder.render(g);
+        for(Enemy enemy : pushover.enemies) enemy.render(g);
     }
 
     @Override
@@ -66,6 +69,11 @@ public class PlayingState extends BasicGameState {
         Pushover pushover = (Pushover)game;
         Input input = container.getInput();
         checkInput(input, pushover);
+        for(Enemy enemy : pushover.enemies)     {
+            enemy.update(pushover,delta);
+            if(enemy.getRemainingTime() <= 0)
+                enemy.move(pushover.grid.get(enemy.grid_ID+1), pushover.grid.get(enemy.grid_ID), 2);
+        }
         pushover.boulder.update(pushover,delta);
         pushover.player.update(pushover,delta);
     }

@@ -17,6 +17,7 @@ public class Pushover extends StateBasedGame {
     public int level=1;
     public final int ScreenWidth;
     public final int ScreenHeight;
+    public ArrayList<Enemy> enemies;
     public ArrayList<Grid> grid;
     public Player player;
     //TODO maybe 2 boulders instead of 1
@@ -24,9 +25,10 @@ public class Pushover extends StateBasedGame {
     //Resource strings
     public static final String STARTUP_SCREEN_RES = "pushover/res/startup.png";
     public static final String WALL_RES = "pushover/res/wall.png";
-    public static final String BLANK_RES = "pushover/res/blank-1.png";
-    public static final String PLAYER_F_RES = "pushover/res/player/player-forward.png";
+    public static final String BLANK_RES = "pushover/res/blank.png";
+    public static final String SNOWBALL_RES = "pushover/res/snowball.png";
     //If there is an "M", it's the "moving" texture
+    public static final String PLAYER_F_RES = "pushover/res/player/player-forward.png";
     public static final String PLAYER_FM_RES = "pushover/res/player/player-forward-moving.png";
     public static final String PLAYER_R_RES = "pushover/res/player/player-right.png";
     public static final String PLAYER_RM_RES = "pushover/res/player/player-right-moving.png";
@@ -34,7 +36,15 @@ public class Pushover extends StateBasedGame {
     public static final String PLAYER_BM_RES = "pushover/res/player/player-back-moving.png";
     public static final String PLAYER_L_RES = "pushover/res/player/player-left.png";
     public static final String PLAYER_LM_RES = "pushover/res/player/player-left-moving.png";
-    public static final String SNOWBALL_RES = "pushover/res/snowball.png";
+
+    public static final String ENEMY_1_F_RES = "pushover/res/enemy/enemy-forward.png";
+    public static final String ENEMY_1_FM_RES = "pushover/res/enemy/enemy-forward-moving.png";
+    public static final String ENEMY_1_R_RES = "pushover/res/enemy/enemy-right.png";
+    public static final String ENEMY_1_RM_RES = "pushover/res/enemy/enemy-right-moving.png";
+    public static final String ENEMY_1_L_RES = "pushover/res/enemy/enemy-left.png";
+    public static final String ENEMY_1_LM_RES = "pushover/res/enemy/enemy-left-moving.png";
+    public static final String ENEMY_1_B_RES = "pushover/res/enemy/enemy-back.png";
+    public static final String ENEMY_1_BM_RES = "pushover/res/enemy/enemy-back-moving.png";
     
     /*
     * Creates the Pushover game frame.
@@ -45,6 +55,7 @@ public class Pushover extends StateBasedGame {
         ScreenWidth = width;
         Entity.setCoarseGrainedCollisionBoundary(Entity.AABB);
         grid = new ArrayList<Grid>(50);
+        enemies = new ArrayList<Enemy>(5);
     }
     @Override
     public void initStatesList(GameContainer container) throws SlickException {
@@ -64,6 +75,14 @@ public class Pushover extends StateBasedGame {
         ResourceManager.loadImage(PLAYER_F_RES);
         ResourceManager.loadImage(PLAYER_FM_RES);
         ResourceManager.loadImage(SNOWBALL_RES);
+        ResourceManager.loadImage(ENEMY_1_F_RES);
+        ResourceManager.loadImage(ENEMY_1_FM_RES);
+        ResourceManager.loadImage(ENEMY_1_R_RES);
+        ResourceManager.loadImage(ENEMY_1_RM_RES);
+        ResourceManager.loadImage(ENEMY_1_L_RES);
+        ResourceManager.loadImage(ENEMY_1_LM_RES);
+        ResourceManager.loadImage(ENEMY_1_B_RES);
+        ResourceManager.loadImage(ENEMY_1_BM_RES);
     }
 
     public static void main(String[] args){
