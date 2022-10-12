@@ -67,9 +67,17 @@ public class Enemy extends Entity {
         grid_point_new.setEntity("Enemy");
         this.grid_ID = grid_point_new.getID();
         //Gets the direction from the old to the new grid 'point'
-        this.velocity = new Vector(dir_x * (float)(32.0f / 600.0f), dir_y * (float)(32.0f / 600.0f));
-        //Set movement timer to 300 ms
-        this.movement_timer=600;
+        //Deep snow tile, double speed
+        if(grid_point_new.getType().equals("DEEP_SNOW")) {
+            this.velocity = new Vector(dir_x * (float)(32.0f / 300.0f), dir_y * (float)(32.0f / 300.0f));
+            this.movement_timer=300;
+        }
+        //Blank tile
+        else{
+            this.velocity = new Vector(dir_x * (float)(32.0f / 600.0f), dir_y * (float)(32.0f / 600.0f));
+            //Set movement timer to 600 ms
+            this.movement_timer=600;
+        }
         return true;
     }
 
@@ -82,7 +90,7 @@ public class Enemy extends Entity {
         }
         //Else, movement timer has ended. be stationary
         else {
-            this.walking=true;
+            // this.walking=true;
             // this.pushed_boulder=false;
             updateSpriteWalking();
             this.setX(pushover.grid.get(this.grid_ID).getX());
@@ -103,7 +111,6 @@ public class Enemy extends Entity {
                     if(next_grid_ID-20 == this.grid_ID) direction=1;
                     if(next_grid_ID-1 == this.grid_ID) direction=2;
                     if(next_grid_ID+1 == this.grid_ID) direction=3;
-                    //TODO uncomment when done
                     this.move(pushover.grid.get(next_grid_ID), pushover.grid.get(this.grid_ID), direction);
                 }
         }

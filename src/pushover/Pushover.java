@@ -33,6 +33,7 @@ public class Pushover extends StateBasedGame {
     public static final String SNOWBALL_RES = "pushover/res/snowball.png";
     public static final String WIN_SCREEN_RES = "pushover/res/win-screen.png";
     public static final String GAMEOVER_SCREEN_RES = "pushover/res/gameover-screen.png";
+    public static final String DEEP_SNOW_RES = "pushover/res/deep-snow.png";
     //If there is an "M", it's the "moving" texture
     public static final String PLAYER_F_RES = "pushover/res/player/player-forward.png";
     public static final String PLAYER_FM_RES = "pushover/res/player/player-forward-moving.png";
@@ -75,6 +76,7 @@ public class Pushover extends StateBasedGame {
         ResourceManager.loadImage(STARTUP_SCREEN_RES);
         ResourceManager.loadImage(WIN_SCREEN_RES);
         ResourceManager.loadImage(GAMEOVER_SCREEN_RES);
+        ResourceManager.loadImage(DEEP_SNOW_RES);
         ResourceManager.loadImage(WALL_RES);
         ResourceManager.loadImage(BLANK_RES);
         ResourceManager.loadImage(PLAYER_L_RES);
