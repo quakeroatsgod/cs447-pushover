@@ -14,6 +14,7 @@ import jig.Vector;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.Stack;
 
 public class PlayingState extends BasicGameState {
     @Override
@@ -51,7 +52,9 @@ public class PlayingState extends BasicGameState {
 	public void enter(GameContainer container, StateBasedGame game) {
         Pushover pushover = (Pushover)game;
         pushover.player = new Player(pushover.grid.get(283));
-        pushover.boulder = new Boulder(pushover.grid.get(284));
+        pushover.boulder = new Boulder(pushover.grid.get(285));
+        pushover.enemies.add(new Enemy(pushover.grid.get(264)));
+
     }
     @Override
     public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
@@ -59,6 +62,7 @@ public class PlayingState extends BasicGameState {
         for(Grid grid_cell : pushover.grid)  grid_cell.render(g);
         pushover.player.render(g);
         pushover.boulder.render(g);
+        for(Enemy enemy : pushover.enemies) enemy.render(g);
     }
 
     @Override
@@ -66,6 +70,49 @@ public class PlayingState extends BasicGameState {
         Pushover pushover = (Pushover)game;
         Input input = container.getInput();
         checkInput(input, pushover);
+        for(Enemy enemy : pushover.enemies)     {
+            enemy.update(pushover,delta);
+            // if(enemy.getRemainingTime() <= 0){
+            //     // Grid next_grid=enemy.pathToPlayer(pushover, pushover.grid.get(enemy.grid_ID),pushover.player.grid_ID);
+            //     int next_grid_ID=enemy.pathToPlayer(pushover, pushover.grid.get(enemy.grid_ID),new ArrayList<Integer>(1),pushover.player.grid_ID);
+            //     if(enemy.grid_ID!=pushover.player.grid_ID){
+            //         int direction=-1;
+            //         //ifs in order of right, left, down, up directions
+            //         if(next_grid_ID+20 == enemy.grid_ID) direction=0;
+            //         if(next_grid_ID-20 == enemy.grid_ID) direction=1;
+            //         if(next_grid_ID-1 == enemy.grid_ID) direction=2;
+            //         if(next_grid_ID+1 == enemy.grid_ID) direction=3;
+            //         enemy.move(pushover.grid.get(next_grid_ID), pushover.grid.get(enemy.grid_ID), direction);
+            //     }
+            // }
+            if(enemy.getRemainingTime() <= 0){
+                //Get new path order stack
+                if(enemy.move_order.empty() || enemy.player_last_known_loc != pushover.player.grid_ID
+                && enemy.move_order.size() < 2 ){
+                    enemy.move_order=enemy.pathToPlayer(pushover, pushover.grid.get(enemy.grid_ID),new ArrayList<Integer>(1),pushover.player.grid_ID);
+                    enemy.player_last_known_loc=pushover.player.grid_ID;
+                    // if(enemy.grid_ID!=pushover.player.grid_ID){
+                        //         int direction=-1;
+                        //         //ifs in order of right, left, down, up directions
+                        //         if(next_grid_ID+20 == enemy.grid_ID) direction=0;
+                        //         if(next_grid_ID-20 == enemy.grid_ID) direction=1;
+                        //         if(next_grid_ID-1 == enemy.grid_ID) direction=2;
+                        //         if(next_grid_ID+1 == enemy.grid_ID) direction=3;
+                        //         enemy.move(pushover.grid.get(next_grid_ID), pushover.grid.get(enemy.grid_ID), direction);
+                        //     }
+                }
+                if(enemy.grid_ID!=pushover.player.grid_ID){
+                    int direction=-1;
+                    int next_grid_ID=enemy.move_order.pop();
+                    //ifs in order of right, left, down, up directions
+                    if(next_grid_ID+20 == enemy.grid_ID) direction=0;
+                    if(next_grid_ID-20 == enemy.grid_ID) direction=1;
+                    if(next_grid_ID-1 == enemy.grid_ID) direction=2;
+                    if(next_grid_ID+1 == enemy.grid_ID) direction=3;
+                    enemy.move(pushover.grid.get(next_grid_ID), pushover.grid.get(enemy.grid_ID), direction);
+                }
+            }
+        }
         pushover.boulder.update(pushover,delta);
         pushover.player.update(pushover,delta);
     }

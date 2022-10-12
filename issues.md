@@ -4,8 +4,9 @@
 - **[2]** Grid layout with walls
 - **[3]** Player and player movement/collision
 - **[4]** Boulder and boulder functionality
-## Open Issues ##
 - **[5]** Low bar enemy and AI
+
+## Open Issues ##
 - **[6]** Win/Lose conditions
 - **[7]** Deep Snow Tiles
 - **[8]** Speed Power-up

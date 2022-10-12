@@ -7,9 +7,9 @@ public class Player extends Entity {
     public int grid_ID;
     private int movement_timer;
     private int sprite_update_timer;
-    private Boolean pushed_boulder;
+    private boolean pushed_boulder;
     private String direction;
-    private Boolean walking;
+    private boolean walking;
     private Vector velocity;
 
     public Player(Grid grid_point){
@@ -31,7 +31,7 @@ public class Player extends Entity {
      * @param direction
      * @returns true if successful move, false if no move made
      */
-    public Boolean move(Grid grid_point_new, Grid grid_point_old, int direction){
+    public boolean move(Grid grid_point_new, Grid grid_point_old, int direction){
         float dir_x=1.0f,dir_y=1.0f;
         //Update player sprite direction
         changePlayerDirection(direction);
@@ -203,7 +203,6 @@ public class Player extends Entity {
         changePlayerDirection(direction);
     }
     /**
-     * 
      * @return movement timer
      */
     public int getRemainingTime(){
