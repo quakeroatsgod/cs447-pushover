@@ -30,10 +30,11 @@ public class Grid extends Entity{
                 //a cost of -1 is ok.
                 this.travel_cost=-1.0f;
                 break;
-            //Extra cost to move on it
+            //Extra cost to move on it for players, half cost for enemies
             case "DEEP_SNOW":
+                addImageWithBoundingBox(ResourceManager.getImage(Pushover.DEEP_SNOW_RES));
                 this.walkable=true;
-                this.travel_cost=2.0f;
+                this.travel_cost=0.0f;
                 break;
             //Tile with no special properties, anything can move on it.
             default:
@@ -62,5 +63,9 @@ public class Grid extends Entity{
 
     public String getEntity(){
         return this.entity;
+    }
+    
+    public String getType(){
+        return this.type;
     }
 }
