@@ -5,9 +5,10 @@
 - **[3]** Player and player movement/collision
 - **[4]** Boulder and boulder functionality
 - **[5]** Low bar enemy and AI
+- **[6]** Win/Lose conditions
+
 
 ## Open Issues ##
-- **[6]** Win/Lose conditions
 - **[7]** Deep Snow Tiles
 - **[8]** Speed Power-up
 - **[9]** Freeze Power-up
