@@ -14,7 +14,11 @@ import org.newdawn.slick.state.StateBasedGame;
 public class Pushover extends StateBasedGame {
     public static final int STARTUPSTATE = 0;
     public static final int PLAYINGSTATE  = 1;
+    public static final int WINSTATE = 2;
+    public static final int GAMEOVERSTATE = 3;
+    public static final int FREEZESCREENSTATE = 4;
     public int level=1;
+    public int state=0;
     public final int ScreenWidth;
     public final int ScreenHeight;
     public ArrayList<Enemy> enemies;
@@ -27,6 +31,8 @@ public class Pushover extends StateBasedGame {
     public static final String WALL_RES = "pushover/res/wall.png";
     public static final String BLANK_RES = "pushover/res/blank.png";
     public static final String SNOWBALL_RES = "pushover/res/snowball.png";
+    public static final String WIN_SCREEN_RES = "pushover/res/win-screen.png";
+    public static final String GAMEOVER_SCREEN_RES = "pushover/res/gameover-screen.png";
     //If there is an "M", it's the "moving" texture
     public static final String PLAYER_F_RES = "pushover/res/player/player-forward.png";
     public static final String PLAYER_FM_RES = "pushover/res/player/player-forward-moving.png";
@@ -61,9 +67,14 @@ public class Pushover extends StateBasedGame {
     public void initStatesList(GameContainer container) throws SlickException {
         addState(new StartUpState());
         addState(new PlayingState());
+        addState(new WinState());
+        addState(new GameOverState());
+        addState(new FreezeScreenState());
 
         //Preload resources here
         ResourceManager.loadImage(STARTUP_SCREEN_RES);
+        ResourceManager.loadImage(WIN_SCREEN_RES);
+        ResourceManager.loadImage(GAMEOVER_SCREEN_RES);
         ResourceManager.loadImage(WALL_RES);
         ResourceManager.loadImage(BLANK_RES);
         ResourceManager.loadImage(PLAYER_L_RES);

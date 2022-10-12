@@ -78,8 +78,6 @@ public class Enemy extends Entity {
         sprite_update_timer-=delta;
         if(movement_timer > 0)  {
             updateSpriteWalking();
-            //If the player walked and didn't push a boulder
-            // if(!pushed_boulder)     
             translate(this.velocity.scale(delta));
         }
         //Else, movement timer has ended. be stationary
@@ -105,6 +103,7 @@ public class Enemy extends Entity {
                     if(next_grid_ID-20 == this.grid_ID) direction=1;
                     if(next_grid_ID-1 == this.grid_ID) direction=2;
                     if(next_grid_ID+1 == this.grid_ID) direction=3;
+                    //TODO uncomment when done
                     this.move(pushover.grid.get(next_grid_ID), pushover.grid.get(this.grid_ID), direction);
                 }
         }

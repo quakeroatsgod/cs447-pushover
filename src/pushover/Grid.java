@@ -49,15 +49,17 @@ public class Grid extends Entity{
     public void setID(int ID){
         this.ID=ID;
     }
+
+    /**
+     * Sets Sets the entity of the grid tile
+     * @param entity
+     */
     public void setEntity(String entity){
         this.entity=entity;
-        if(entity.equals("Boulder")) {
-            this.walkable = false;
-        }
-        else{
-                this.walkable = true;
-            }
+        if(entity.equals("Boulder")) this.walkable = false;
+        else    this.walkable = true;
     }
+
     public String getEntity(){
         return this.entity;
     }
