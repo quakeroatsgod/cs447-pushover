@@ -11,6 +11,8 @@ public class Player extends Entity {
     private String direction;
     private boolean walking;
     private Vector velocity;
+    public int powerup_timer;
+    public String powerup_type;
 
     public Player(Grid grid_point){
         super(grid_point.getX(),grid_point.getY());
@@ -21,6 +23,8 @@ public class Player extends Entity {
         this.grid_ID=grid_point.getID();
         this.direction=Pushover.PLAYER_F_RES;
         this.velocity=new Vector(0,0);
+        this.powerup_timer=0;
+        this.powerup_type="";
         grid_point.setEntity("Player");
         addImageWithBoundingBox(ResourceManager.getImage(Pushover.PLAYER_F_RES));
     }
@@ -72,12 +76,17 @@ public class Player extends Entity {
             //Set movement timer to 150 ms
             this.movement_timer=150;
         }
+        if(this.powerup_timer > 0 && powerup_type.equals("Speed-powerup")){
+            this.velocity = new Vector(dir_x * (float)(32.0f / 75.0f), dir_y * (float)(32.0f / 75.0f));
+            this.movement_timer=75;
+        }
         return true;
     }
 
     public void update(Pushover pushover, int delta){
         movement_timer-=delta;
         sprite_update_timer-=delta;
+        powerup_timer-=delta;
         if(movement_timer > 0)  {
             updateSpriteWalking();
             //If the player walked and didn't push a boulder
@@ -155,6 +164,7 @@ public class Player extends Entity {
             this.walking=true;
         }
         this.sprite_update_timer=75;
+        if(this.powerup_timer > 0 && powerup_type.equals("Speed-powerup")) this.sprite_update_timer=37;
     }
     /**
      * Clear any and all player sprites. A bit over kill, but it ensures smooth sprite movement

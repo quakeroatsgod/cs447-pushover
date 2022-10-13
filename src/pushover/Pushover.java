@@ -23,6 +23,7 @@ public class Pushover extends StateBasedGame {
     public final int ScreenHeight;
     public ArrayList<Enemy> enemies;
     public ArrayList<Grid> grid;
+    public ArrayList<Powerup> powerups;
     public Player player;
     //TODO maybe 2 boulders instead of 1
     public Boulder boulder;
@@ -34,6 +35,8 @@ public class Pushover extends StateBasedGame {
     public static final String WIN_SCREEN_RES = "pushover/res/win-screen.png";
     public static final String GAMEOVER_SCREEN_RES = "pushover/res/gameover-screen.png";
     public static final String DEEP_SNOW_RES = "pushover/res/deep-snow.png";
+    public static final String SPEED_POWERUP_RES = "pushover/res/speed-powerup.png";
+    public static final String FREEZE_POWERUP_RES = "pushover/res/freeze-powerup.png";
     //If there is an "M", it's the "moving" texture
     public static final String PLAYER_F_RES = "pushover/res/player/player-forward.png";
     public static final String PLAYER_FM_RES = "pushover/res/player/player-forward-moving.png";
@@ -63,6 +66,7 @@ public class Pushover extends StateBasedGame {
         Entity.setCoarseGrainedCollisionBoundary(Entity.AABB);
         grid = new ArrayList<Grid>(50);
         enemies = new ArrayList<Enemy>(5);
+        powerups = new ArrayList<Powerup>(2);
     }
     @Override
     public void initStatesList(GameContainer container) throws SlickException {
@@ -77,6 +81,8 @@ public class Pushover extends StateBasedGame {
         ResourceManager.loadImage(WIN_SCREEN_RES);
         ResourceManager.loadImage(GAMEOVER_SCREEN_RES);
         ResourceManager.loadImage(DEEP_SNOW_RES);
+        ResourceManager.loadImage(SPEED_POWERUP_RES);
+        ResourceManager.loadImage(FREEZE_POWERUP_RES);
         ResourceManager.loadImage(WALL_RES);
         ResourceManager.loadImage(BLANK_RES);
         ResourceManager.loadImage(PLAYER_L_RES);

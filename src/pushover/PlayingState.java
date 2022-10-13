@@ -53,8 +53,16 @@ public class PlayingState extends BasicGameState {
         Pushover pushover = (Pushover)game;
         pushover.player = new Player(pushover.grid.get(283));
         pushover.boulder = new Boulder(pushover.grid.get(285));
-        pushover.enemies = new ArrayList<>(5);
-        pushover.enemies.add(new Enemy(pushover.grid.get(264)));
+        pushover.enemies = new ArrayList<Enemy>(5);
+        pushover.powerups = new ArrayList<Powerup>(2);
+        pushover.enemies.add(new Enemy(pushover.grid.get(44)));
+        // pushover.enemies.add(new Enemy(pushover.grid.get(215)));
+        // pushover.enemies.add(new Enemy(pushover.grid.get(264)));
+        // pushover.enemies.add(new Enemy(pushover.grid.get(344)));
+        // pushover.enemies.add(new Enemy(pushover.grid.get(164)));
+        pushover.powerups.add(new Powerup(pushover.grid.get(234), "Speed-powerup"));
+        pushover.powerups.add(new Powerup(pushover.grid.get(214), "Freeze-powerup"));
+
 
     }
     @Override
@@ -64,6 +72,7 @@ public class PlayingState extends BasicGameState {
         pushover.player.render(g);
         pushover.boulder.render(g);
         for(Enemy enemy : pushover.enemies) enemy.render(g);
+        for(Powerup powerup : pushover.powerups) powerup.render(g);
     }
 
     @Override
@@ -81,13 +90,22 @@ public class PlayingState extends BasicGameState {
             for (Iterator<Enemy> en_iter = pushover.enemies.iterator(); en_iter.hasNext();) 
                 if (en_iter.next().grid_ID == pushover.boulder.grid_ID) 	en_iter.remove();
             for(Enemy enemy : pushover.enemies)   {
-                enemy.update(pushover, delta);
+                enemy.timeUpdate(pushover, delta);
+                if(enemy.getRemainingTime() <= 0) enemy.moveUpdate(pushover);
                 if(enemy.grid_ID==pushover.player.grid_ID)  {
                     pushover.state=1;
                     pushover.enterState(Pushover.FREEZESCREENSTATE, new EmptyTransition(), new EmptyTransition());
                 }
             }
         }
+        //Apply powerup and remove it from the game if the player steps on it
+        for(Powerup powerup : pushover.powerups)    if (powerup.grid_ID == pushover.player.grid_ID) powerup.applyPowerup(pushover);
+        for (Iterator<Powerup> pow_iter = pushover.powerups.iterator(); pow_iter.hasNext();) {
+            if (pow_iter.next().grid_ID == pushover.player.grid_ID){
+                // pow_iter.remove();
+            }
+        }
+
         pushover.boulder.update(pushover,delta);
         pushover.player.update(pushover,delta);
     }

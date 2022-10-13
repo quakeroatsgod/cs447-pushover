@@ -7,9 +7,9 @@
 - **[5]** Low bar enemy and AI
 - **[6]** Win/Lose conditions
 - **[7]** Deep Snow Tiles
+- **[8]** Speed Power-up
 
 ## Open Issues ##
-- **[8]** Speed Power-up
 - **[9]** Freeze Power-up
 - **[10]** Finish desigining Level 1
 - **[11]** Level 2
