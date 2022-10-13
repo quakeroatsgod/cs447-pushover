@@ -29,18 +29,25 @@ public class Powerup extends Entity{
      */
     public void applyPowerup(Pushover pushover){
         Random rng = new Random();
+        int time=0;
         switch(this.type){
             case "Speed-powerup":
-                int time = ((rng.nextInt() % 10) + 15) * 1000;
+                //Duration is 15-25 seconds
+                time = ((rng.nextInt() % 11) + 15) * 1000;
                 pushover.player.powerup_timer=time;
                 pushover.player.powerup_type=this.type;
                 for(Enemy enemy : pushover.enemies) {
-                    enemy.powerup_timer=time;
-                    enemy.powerup_type=type;
+                    enemy.speed_timer=time;
                 }
                 break;
             case "Freeze-powerup":
+                //Duration is 3-7 seconds
+                time = ((rng.nextInt() % 5) + 3) * 1000;
+                for(Enemy enemy : pushover.enemies) {
+                    enemy.freezeEnemy(time);
+                }
                 break;
         }
+        
     }
 }

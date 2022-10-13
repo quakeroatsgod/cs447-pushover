@@ -102,6 +102,7 @@ public class PlayingState extends BasicGameState {
         for(Powerup powerup : pushover.powerups)    if (powerup.grid_ID == pushover.player.grid_ID) powerup.applyPowerup(pushover);
         for (Iterator<Powerup> pow_iter = pushover.powerups.iterator(); pow_iter.hasNext();) {
             if (pow_iter.next().grid_ID == pushover.player.grid_ID){
+                //TODO uncomment when done
                 // pow_iter.remove();
             }
         }

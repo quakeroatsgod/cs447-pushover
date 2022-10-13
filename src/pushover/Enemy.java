@@ -14,8 +14,10 @@ public class Enemy extends Entity {
     private Vector velocity;
     public Stack<Integer> move_order;
     public int player_last_known_loc;
-    public int powerup_timer;
-    public String powerup_type;
+    public int freeze_timer;
+    public boolean isFrozen;
+    public int speed_timer;
+    public boolean isSpeedy;
 
     public Enemy(Grid grid_point){
         super(grid_point.getX(),grid_point.getY());
@@ -27,8 +29,9 @@ public class Enemy extends Entity {
         this.velocity=new Vector(0,0);
         this.move_order = new Stack<Integer>();
         this.player_last_known_loc=-1;
-        this.powerup_timer=0;
-        this.powerup_type="";
+        this.freeze_timer=0;
+        this.speed_timer=0;
+        this.isFrozen=false;
         grid_point.setEntity("Enemy");
     }
 
@@ -40,7 +43,7 @@ public class Enemy extends Entity {
      * @returns true if successful move, false if no move made
      */
     public boolean move(Grid grid_point_new, Grid grid_point_old, int direction){
-        System.out.println(direction);
+        if(this.isFrozen)   return false;
         //Invalid movement direction
         if(direction ==-1)  return false;
         float dir_x=1.0f,dir_y=1.0f;
@@ -66,7 +69,6 @@ public class Enemy extends Entity {
         }
         //If the grid point cannot be moved onto
         if(!grid_point_new.walkable)    return false;
-        // if(this.pushed_boulder)         return false;
         if(this.movement_timer > 0)     return false;
         grid_point_old.setEntity("");
         grid_point_new.setEntity("Enemy");
@@ -83,7 +85,8 @@ public class Enemy extends Entity {
             //Set movement timer to 600 ms
             this.movement_timer=600;
         }
-        if(this.powerup_timer > 0 && powerup_type.equals("Speed-powerup")){
+        //If speed powerup is applied
+        if(this.speed_timer > 0){
             this.velocity = new Vector(dir_x * (float)(32.0f / 150.0f), dir_y * (float)(32.0f / 150.0f));
             this.movement_timer=150;
         }
@@ -97,7 +100,12 @@ public class Enemy extends Entity {
     public void timeUpdate(Pushover pushover, int delta){
         movement_timer-=delta;
         sprite_update_timer-=delta;
-        powerup_timer-=delta;
+        freeze_timer-=delta;
+        speed_timer-=delta;
+        if(freeze_timer <= 0){
+            this.isFrozen=false;
+            removeImage(ResourceManager.getImage(Pushover.ICE_CUBE_RES));
+        }
         if(movement_timer > 0)  {
             updateSpriteWalking();
             translate(this.velocity.scale(delta));
@@ -105,7 +113,7 @@ public class Enemy extends Entity {
         //Else, movement timer has ended. be stationary
         else {
             // this.walking=true;
-            updateSpriteWalking();
+            if(!this.isFrozen)      updateSpriteWalking();
             this.setX(pushover.grid.get(this.grid_ID).getX());
             this.setY(pushover.grid.get(this.grid_ID).getY());
             this.velocity = new Vector(0.0f,0.0f);
@@ -252,7 +260,8 @@ public class Enemy extends Entity {
             this.walking=true;
         }
         this.sprite_update_timer=300;
-        if(this.powerup_timer > 0 && powerup_type.equals("Speed-powerup"))  this.sprite_update_timer = 150;
+        if(this.speed_timer > 0)  this.sprite_update_timer = 150;
+        if(this.isFrozen)  addImageWithBoundingBox(ResourceManager.getImage(Pushover.ICE_CUBE_RES));
     }
     /**
      * Clear any and all ENEMY sprites. A bit over kill, but it ensures smooth sprite movement
@@ -266,6 +275,7 @@ public class Enemy extends Entity {
         removeImage(ResourceManager.getImage(Pushover.ENEMY_1_F_RES));
         removeImage(ResourceManager.getImage(Pushover.ENEMY_1_BM_RES));
         removeImage(ResourceManager.getImage(Pushover.ENEMY_1_B_RES));
+        removeImage(ResourceManager.getImage(Pushover.ICE_CUBE_RES));
     }
 
     /**
@@ -302,5 +312,13 @@ public class Enemy extends Entity {
      */
     public int getRemainingTime(){
         return movement_timer;
+    }
+    /** 
+     * Adds the ice cube texture to an enemy's sprite
+     */
+    public void freezeEnemy(int duration){
+        addImageWithBoundingBox(ResourceManager.getImage(Pushover.ICE_CUBE_RES));
+        this.freeze_timer=duration;
+        this.isFrozen=true; 
     }
 }
