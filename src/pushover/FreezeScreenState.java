@@ -55,7 +55,7 @@ public class FreezeScreenState extends BasicGameState {
             pushover.player.update(pushover, delta);
             pushover.boulder.update(pushover, delta);
             for(Enemy enemy : pushover.enemies)   {
-                enemy.update(pushover, delta);
+                enemy.timeUpdate(pushover, delta);
             }
         }
     }

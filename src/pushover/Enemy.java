@@ -14,6 +14,9 @@ public class Enemy extends Entity {
     private Vector velocity;
     public Stack<Integer> move_order;
     public int player_last_known_loc;
+    public int powerup_timer;
+    public String powerup_type;
+
     public Enemy(Grid grid_point){
         super(grid_point.getX(),grid_point.getY());
         addImageWithBoundingBox(ResourceManager.getImage(Pushover.ENEMY_1_F_RES));
@@ -24,6 +27,8 @@ public class Enemy extends Entity {
         this.velocity=new Vector(0,0);
         this.move_order = new Stack<Integer>();
         this.player_last_known_loc=-1;
+        this.powerup_timer=0;
+        this.powerup_type="";
         grid_point.setEntity("Enemy");
     }
 
@@ -78,12 +83,21 @@ public class Enemy extends Entity {
             //Set movement timer to 600 ms
             this.movement_timer=600;
         }
+        if(this.powerup_timer > 0 && powerup_type.equals("Speed-powerup")){
+            this.velocity = new Vector(dir_x * (float)(32.0f / 150.0f), dir_y * (float)(32.0f / 150.0f));
+            this.movement_timer=150;
+        }
         return true;
     }
-
-    public void update(Pushover pushover, int delta){
+    /**
+     * Mainly updates timers wtih delta and adjust things that rely on time
+     * @param pushover
+     * @param delta
+     */
+    public void timeUpdate(Pushover pushover, int delta){
         movement_timer-=delta;
         sprite_update_timer-=delta;
+        powerup_timer-=delta;
         if(movement_timer > 0)  {
             updateSpriteWalking();
             translate(this.velocity.scale(delta));
@@ -91,28 +105,33 @@ public class Enemy extends Entity {
         //Else, movement timer has ended. be stationary
         else {
             // this.walking=true;
-            // this.pushed_boulder=false;
             updateSpriteWalking();
             this.setX(pushover.grid.get(this.grid_ID).getX());
             this.setY(pushover.grid.get(this.grid_ID).getY());
             this.velocity = new Vector(0.0f,0.0f);
-
-            if(this.move_order.empty() || this.player_last_known_loc != pushover.player.grid_ID
-                && this.move_order.size() < 2 ){
-                    //Get new path order stack
-                    this.move_order=this.pathToPlayer(pushover, pushover.grid.get(this.grid_ID),new ArrayList<Integer>(1),pushover.player.grid_ID);
-                    this.player_last_known_loc=pushover.player.grid_ID;
-                }
-                if(this.grid_ID!=pushover.player.grid_ID){
-                    int direction=-1;
-                    int next_grid_ID=this.move_order.pop();
-                    //ifs in order of right, left, down, up directions
-                    if(next_grid_ID+20 == this.grid_ID) direction=0;
-                    if(next_grid_ID-20 == this.grid_ID) direction=1;
-                    if(next_grid_ID-1 == this.grid_ID) direction=2;
-                    if(next_grid_ID+1 == this.grid_ID) direction=3;
-                    this.move(pushover.grid.get(next_grid_ID), pushover.grid.get(this.grid_ID), direction);
-                }
+        }
+    }
+    /**
+     * An update method decoupled from timeUpdate. Updates
+     * the movement stack, or gets a new one if needed
+     * @param pushover
+     */
+    public void moveUpdate(Pushover pushover){
+        if(this.move_order.empty() || this.player_last_known_loc != pushover.player.grid_ID
+            && this.move_order.size() < 2 ){
+            //Get new path order stack
+            this.move_order=this.pathToPlayer(pushover, pushover.grid.get(this.grid_ID),new ArrayList<Integer>(1),pushover.player.grid_ID);
+            this.player_last_known_loc=pushover.player.grid_ID;
+        }
+        else if(this.grid_ID!=pushover.player.grid_ID){
+            int direction=-1;
+            int next_grid_ID=this.move_order.pop();
+            //ifs in order of right, left, down, up directions
+            if(next_grid_ID+20 == this.grid_ID) direction=0;
+            if(next_grid_ID-20 == this.grid_ID) direction=1;
+            if(next_grid_ID-1 == this.grid_ID) direction=2;
+            if(next_grid_ID+1 == this.grid_ID) direction=3;
+            this.move(pushover.grid.get(next_grid_ID), pushover.grid.get(this.grid_ID), direction);
         }
     }
     /**
@@ -124,7 +143,6 @@ public class Enemy extends Entity {
      * @param player_grid_ID The grid tile the player is on
      */
     public Stack<Integer> pathToPlayer(Pushover pushover, Grid start_grid_node, ArrayList<Integer> closed_list, int player_grid_ID){
-        // System.out.println(start_grid_node.getID());
         Stack<Integer> new_order = new Stack<Integer>();
         Grid cheapest_node=new Grid(-1);
         ArrayList<Integer> grid_paths = new ArrayList<Integer>(4);
@@ -161,81 +179,6 @@ public class Enemy extends Entity {
             }
         }
         return new_order;
-
-
-
-        // ArrayList<Integer> grid_paths = new ArrayList<Integer>(4);
-        // System.out.println(start_grid_node.getID()+" Player is at: "+player_grid_ID);
-        // Grid cheapest_node = new Grid(-1);
-        // //If the pathfinder is at the player's grid node
-        // if(start_grid_node.getID() == player_grid_ID){ 
-        //     // cheapest_node.travel_cost = start_grid_node.travel_cost;
-        //     // cheapest_node.setID(player_grid_ID);
-        //     System.out.println("found player tile");
-        //     return start_grid_node;
-        //     // return cheapest_node;
-        // }
-        // // int cheapest_cost=-1;
-        // // int cheapest_path_ID=-1;
-        // //Left,right,up,down paths
-        // grid_paths.add(start_grid_node.getID()-20);
-        // grid_paths.add(start_grid_node.getID()+20);
-        // grid_paths.add(start_grid_node.getID()-1);
-        // grid_paths.add(start_grid_node.getID()+1);
-        // System.out.println(grid_paths);
-        // //Iterate through paths and find the least cost of them
-        // for (int path : grid_paths){
-        //     System.out.println("bruv");
-        //     //Ignore paths that are not walkable or ones we've been on
-        //     if(start_grid_node.closed_path_ID.contains(path))   continue;
-        //     System.out.println(".....it's here "+path);
-        //     if(pushover.grid.get(path).walkable){
-        //         System.out.println("Oh it's here "+path);
-        //         Grid next_node=new Grid(path);
-        //         next_node.closed_path_ID=start_grid_node.closed_path_ID;
-        //         next_node.closed_path_ID.add(start_grid_node.getID());
-        //         System.out.println("About to traverse to "+path);
-        //         Grid path_node=pathToPlayer(pushover, next_node, player_grid_ID);
-        //         // if(path_node.getID()==player_grid_ID)   return path_node;
-        //         if(path_node.travel_cost < cheapest_node.travel_cost || cheapest_node.travel_cost == -1){
-        //             cheapest_node.travel_cost=path_node.travel_cost;
-        //             cheapest_node.setID(path);
-        //         }
-        //     }
-        // }
-        // //If there are no valid paths
-        // // if(cheapest_node.getID()==-1) cheapest_node.travel_cost=0;
-        // cheapest_node.travel_cost+=start_grid_node.travel_cost;
-        // System.out.println(cheapest_node.travel_cost+" "+cheapest_node.getID());
-        // // cheapest_node.closed_path_ID.add(cheapest_node.getID());
-        // return cheapest_node;
-        // def dijkstra(startNode: Node, finalNodeName: String): (Integer,List[String], Integer)={
-        //     //Base case. Don't add null paths or if we reach the end of the path
-        //     if(startNode.name==finalNodeName){
-        //         //return base cost
-        //         return (0,List(finalNodeName),1)
-        //     }
-        //     //Initialization values. The -1 is so that no matter the cost, there will not be any
-        //     //bugs in reference to the cost/nodes traveled to being too big
-        //     var leastCost: (Integer,List[String],Integer)= (-1, Nil,-1)
-        //     var currentPath: (Integer,List[String],Integer)=(0,Nil,0)
-        //     //If there is a path to a node
-        //     for(nodePath <- startNode.paths){
-        //         //Copy the path values recursively
-        //         currentPath=dijkstra(nodePath._1,finalNodeName)
-        //         //Cost should never be less than 0
-        //         assert(currentPath._1 >= 0)
-        //         if(leastCost._1==(-1)){
-        //             leastCost=((currentPath._1+ nodePath._2) , currentPath._2, currentPath._3)
-        //         }
-        //         //If the path cost and nodes traveled is less than the current least cost path, use these path values
-        //         else if((leastCost._1 >= (currentPath._1 + nodePath._2)) && (leastCost._3 >= currentPath._3)){   
-        //             leastCost=((currentPath._1+ nodePath._2) , currentPath._2, currentPath._3)
-        //         }
-        //     }
-        //     //Append the new least cost, list of nodes, and number of nodes traveled
-        //     return(leastCost._1,startNode.name::leastCost._2,leastCost._3+1)
-        // }
     }
     /**
      * Calculates heuristic distance from enemy to player
@@ -309,6 +252,7 @@ public class Enemy extends Entity {
             this.walking=true;
         }
         this.sprite_update_timer=300;
+        if(this.powerup_timer > 0 && powerup_type.equals("Speed-powerup"))  this.sprite_update_timer = 150;
     }
     /**
      * Clear any and all ENEMY sprites. A bit over kill, but it ensures smooth sprite movement
