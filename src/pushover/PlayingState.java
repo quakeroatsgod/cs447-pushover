@@ -17,6 +17,7 @@ import java.util.Scanner;
 import java.util.Stack;
 
 public class PlayingState extends BasicGameState {
+    private boolean highlight_flag=false;
     @Override
     public int getID() {
         return Pushover.PLAYINGSTATE;
@@ -50,16 +51,17 @@ public class PlayingState extends BasicGameState {
 	 */
 	@Override
 	public void enter(GameContainer container, StateBasedGame game) {
+        highlight_flag=false;
         Pushover pushover = (Pushover)game;
         pushover.player = new Player(pushover.grid.get(283));
         pushover.boulder = new Boulder(pushover.grid.get(285));
         pushover.enemies = new ArrayList<Enemy>(5);
         pushover.powerups = new ArrayList<Powerup>(2);
-        pushover.enemies.add(new Enemy(pushover.grid.get(44)));
+        // pushover.enemies.add(new Enemy(pushover.grid.get(44)));
         // pushover.enemies.add(new Enemy(pushover.grid.get(215)));
         // pushover.enemies.add(new Enemy(pushover.grid.get(264)));
         // pushover.enemies.add(new Enemy(pushover.grid.get(344)));
-        // pushover.enemies.add(new Enemy(pushover.grid.get(164)));
+        pushover.enemies.add(new Enemy(pushover.grid.get(164)));
         pushover.powerups.add(new Powerup(pushover.grid.get(234), "Speed-powerup"));
         pushover.powerups.add(new Powerup(pushover.grid.get(214), "Freeze-powerup"));
 
@@ -91,22 +93,43 @@ public class PlayingState extends BasicGameState {
                 if (en_iter.next().grid_ID == pushover.boulder.grid_ID) 	en_iter.remove();
             for(Enemy enemy : pushover.enemies)   {
                 enemy.timeUpdate(pushover, delta);
+                //Unhighlight any path tiles in order to prevent the same tile being lit up multiple times in a row.
+                Stack<Integer> move_order= (Stack<Integer>)enemy.move_order.clone();
+                while(!move_order.empty()){
+                    Grid grid_point = pushover.grid.get(move_order.pop());
+                    grid_point.unhighlight(pushover,highlight_flag);
+                }
+                //Move enemy if the movement timer is up
                 if(enemy.getRemainingTime() <= 0) enemy.moveUpdate(pushover);
+                //If an enemy is on the same tile as the player, move to game over.
+                
                 if(enemy.grid_ID==pushover.player.grid_ID)  {
                     pushover.state=1;
                     pushover.enterState(Pushover.FREEZESCREENSTATE, new EmptyTransition(), new EmptyTransition());
                 }
+                
             }
         }
         //Apply powerup and remove it from the game if the player steps on it
         for(Powerup powerup : pushover.powerups)    if (powerup.grid_ID == pushover.player.grid_ID) powerup.applyPowerup(pushover);
         for (Iterator<Powerup> pow_iter = pushover.powerups.iterator(); pow_iter.hasNext();) {
             if (pow_iter.next().grid_ID == pushover.player.grid_ID){
-                //TODO uncomment when done
-                // pow_iter.remove();
+                pow_iter.remove();
             }
         }
-
+        //I know this looks weird... unhighlight, and then re highlight the tiles? Well, this is
+        //So that the highlight is only drawn once per tile. There's no method to check if a tile already has some texture
+        // for(Grid grid_point : pushover.grid) grid_point.unhighlight(pushover,highlight_flag);
+        //Highlight grid tiles
+        if(highlight_flag){
+            for(Enemy enemy : pushover.enemies)   {
+                Stack<Integer> move_order= (Stack<Integer>)enemy.move_order.clone();
+                while(!move_order.empty()){
+                    Grid grid_point = pushover.grid.get(move_order.pop());
+                    grid_point.highlight();
+                }
+            }
+        }
         pushover.boulder.update(pushover,delta);
         pushover.player.update(pushover,delta);
     }
@@ -169,6 +192,15 @@ public class PlayingState extends BasicGameState {
                 return;
             }
         }
+        //------Cheat codes------------
+        //Turn off enemy path highlighter
+        if(input.isKeyDown(Input.KEY_O))    {
+            highlight_flag=false;
+            for(Grid grid_point : pushover.grid) grid_point.unhighlight(pushover, highlight_flag);
+        }
+        //Turn on enemy path highlighter
+        if(input.isKeyDown(Input.KEY_P))    highlight_flag=true;
+
     }
 
 }

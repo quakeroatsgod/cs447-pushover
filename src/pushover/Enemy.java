@@ -126,7 +126,7 @@ public class Enemy extends Entity {
      */
     public void moveUpdate(Pushover pushover){
         if(this.move_order.empty() || this.player_last_known_loc != pushover.player.grid_ID
-            && this.move_order.size() < 2 ){
+             ){
             //Get new path order stack
             this.move_order=this.pathToPlayer(pushover, pushover.grid.get(this.grid_ID),new ArrayList<Integer>(1),pushover.player.grid_ID);
             this.player_last_known_loc=pushover.player.grid_ID;

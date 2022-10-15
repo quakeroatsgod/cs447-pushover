@@ -9,11 +9,14 @@
 - **[7]** Deep Snow Tiles
 - **[8]** Speed Power-up
 - **[9]** Freeze Power-up
+- **[10]** Enemy AI highlighted path
 
 ## Open Issues ##
-- **[10]** Finish desigining Level 1
-- **[11]** Level 2
-- **[12]** Cheat Codes
-- **[13]** High Bar Items
+- **[11]** Add lives
+- **[12]** Add lose condition if boulder is stuck in corner
+- **[12]** Finish desigining Level 1
+- **[13]** Level 2
+- **[14]** Cheat Codes
+- **[15]** High Bar Items
 - **[]** 
 
