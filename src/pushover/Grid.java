@@ -44,6 +44,18 @@ public class Grid extends Entity{
                 break;
         }
     }
+    /**
+     * Removes the highlighted texture from the grid
+     * @param pushover
+     * @param highlight_flag
+     */
+    public void unhighlight(Pushover pushover, boolean highlight_flag){
+        removeImage(ResourceManager.getImage(Pushover.PATH_HIGHLIGHT_RES));
+    }
+    
+    public void highlight(){
+        addImageWithBoundingBox(ResourceManager.getImage(Pushover.PATH_HIGHLIGHT_RES));
+    }
     public int getID(){
         return this.ID;
     }
