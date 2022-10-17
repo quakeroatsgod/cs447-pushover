@@ -35,6 +35,9 @@ public class FreezeScreenState extends BasicGameState {
         pushover.player.render(g);
         pushover.boulder.render(g);
         for(Enemy enemy : pushover.enemies) enemy.render(g);
+        g.drawString("Lives Left: "+pushover.lives_left, 100,10);
+        g.drawString("Enemies left: "+pushover.enemy_count, 250,10);
+        g.drawString("Level: "+pushover.level, 400,10);
     }
 
     @Override
@@ -47,8 +50,17 @@ public class FreezeScreenState extends BasicGameState {
             //Reset state tracker
             pushover.state=0;
             //Determine which state to move to
-            if(state==1) pushover.enterState(Pushover.GAMEOVERSTATE, new EmptyTransition(), new HorizontalSplitTransition());
-            if(state==2) pushover.enterState(Pushover.WINSTATE, new EmptyTransition(), new HorizontalSplitTransition());
+            switch(state){
+                //Gameover
+                case 1: pushover.enterState(Pushover.GAMEOVERSTATE, new EmptyTransition(), new HorizontalSplitTransition());
+                    break;
+                //Win
+                case 2: pushover.enterState(Pushover.WINSTATE, new EmptyTransition(), new HorizontalSplitTransition());
+                    break;
+                //Restart level
+                case 3: pushover.enterState(Pushover.PLAYINGSTATE, new EmptyTransition(), new EmptyTransition());
+                break;
+            }
         }
         else {
             timer-=delta;

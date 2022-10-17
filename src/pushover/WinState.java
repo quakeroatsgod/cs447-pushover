@@ -20,13 +20,23 @@ public class WinState extends BasicGameState {
     }
 
     @Override
+    public void enter(GameContainer container, StateBasedGame game) {
+		Pushover pushover = (Pushover)game;
+        pushover.level++;
+        if(pushover.level==2)   pushover.level=1;
+    }
+    @Override
     public void init(GameContainer container, StateBasedGame game) throws SlickException {
 
     }
 
     @Override
     public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
-        g.drawImage(ResourceManager.getImage(Pushover.WIN_SCREEN_RES), 0, 0);		
+		Pushover pushover = (Pushover)game;
+        g.drawImage(ResourceManager.getImage(Pushover.WIN_SCREEN_RES), 0, 0);
+        g.drawString("Lives Left: "+pushover.lives_left, 100,10);
+        g.drawString("Enemies left: "+pushover.enemy_count, 250,10);
+        g.drawString("Level: "+pushover.level, 400,10);		
     }
 
     @Override
@@ -36,7 +46,6 @@ public class WinState extends BasicGameState {
 		//Await user input to start the game
 		if (input.isKeyDown(Input.KEY_SPACE)){ 	
             pushover.enterState(Pushover.STARTUPSTATE, new EmptyTransition(), new HorizontalSplitTransition());
-    
         }
     }
 }
