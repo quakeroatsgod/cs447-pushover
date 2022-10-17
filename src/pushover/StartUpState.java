@@ -25,9 +25,17 @@ public class StartUpState extends BasicGameState {
     }
 
     @Override
-    public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
-        g.drawImage(ResourceManager.getImage(Pushover.STARTUP_SCREEN_RES), 50, 200);		
+	public void enter(GameContainer container, StateBasedGame game) {
+        Pushover pushover = (Pushover)game;
+        pushover.lives_left=3;
     }
+    @Override
+    public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
+        Pushover pushover = (Pushover)game;
+        g.drawImage(ResourceManager.getImage(Pushover.STARTUP_SCREEN_RES), 50, 200);
+        g.drawString("Lives Left: "+pushover.lives_left, 100,10);
+        g.drawString("Enemies left: "+pushover.enemy_count, 250,10);
+        g.drawString("Level: "+pushover.level, 400,10);    }
 
     @Override
     public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {

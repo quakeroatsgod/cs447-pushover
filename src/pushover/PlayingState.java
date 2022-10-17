@@ -53,10 +53,13 @@ public class PlayingState extends BasicGameState {
 	public void enter(GameContainer container, StateBasedGame game) {
         highlight_flag=false;
         Pushover pushover = (Pushover)game;
+        initLevel(pushover, pushover.level);
+
         pushover.player = new Player(pushover.grid.get(283));
         pushover.boulder = new Boulder(pushover.grid.get(285));
         pushover.enemies = new ArrayList<Enemy>(5);
         pushover.powerups = new ArrayList<Powerup>(2);
+        
         // pushover.enemies.add(new Enemy(pushover.grid.get(44)));
         // pushover.enemies.add(new Enemy(pushover.grid.get(215)));
         // pushover.enemies.add(new Enemy(pushover.grid.get(264)));
@@ -75,6 +78,9 @@ public class PlayingState extends BasicGameState {
         pushover.boulder.render(g);
         for(Enemy enemy : pushover.enemies) enemy.render(g);
         for(Powerup powerup : pushover.powerups) powerup.render(g);
+        g.drawString("Lives Left: "+pushover.lives_left, 100,10);
+        g.drawString("Enemies left: "+pushover.enemy_count, 250,10);
+        g.drawString("Level: "+pushover.level, 400,10);
     }
 
     @Override
@@ -90,7 +96,10 @@ public class PlayingState extends BasicGameState {
         //If there are still enemies left remaining
         else{
             for (Iterator<Enemy> en_iter = pushover.enemies.iterator(); en_iter.hasNext();) 
-                if (en_iter.next().grid_ID == pushover.boulder.grid_ID) 	en_iter.remove();
+                if (en_iter.next().grid_ID == pushover.boulder.grid_ID){
+                    en_iter.remove();
+                    pushover.enemy_count--;
+                }
             for(Enemy enemy : pushover.enemies)   {
                 enemy.timeUpdate(pushover, delta);
                 //Unhighlight any path tiles in order to prevent the same tile being lit up multiple times in a row.
@@ -104,7 +113,9 @@ public class PlayingState extends BasicGameState {
                 //If an enemy is on the same tile as the player, move to game over.
                 
                 if(enemy.grid_ID==pushover.player.grid_ID)  {
-                    pushover.state=1;
+                    pushover.lives_left--;
+                    //Restart level if there are still lives left. Enter 
+                    pushover.state = pushover.lives_left == 0 ? 1 : 3;
                     pushover.enterState(Pushover.FREEZESCREENSTATE, new EmptyTransition(), new EmptyTransition());
                 }
                 
@@ -203,4 +214,10 @@ public class PlayingState extends BasicGameState {
 
     }
 
+    private void initLevel(Pushover pushover, int level){
+        switch(level){
+            case 1:
+        }
+    }
+    
 }

@@ -26,6 +26,7 @@ public class Pushover extends StateBasedGame {
     public ArrayList<Powerup> powerups;
     public Player player;
     public int lives_left=3;
+    public int enemy_count=5;
     //TODO maybe 2 boulders instead of 1
     public Boulder boulder;
     //Resource strings
