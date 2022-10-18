@@ -10,10 +10,10 @@
 - **[8]** Speed Power-up
 - **[9]** Freeze Power-up
 - **[10]** Enemy AI highlighted path
-
-## Open Issues ##
 - **[11]** Add lives
 - **[12]** Add lose condition if boulder is stuck in corner
+
+## Open Issues ##
 - **[12]** Finish desigining Level 1
 - **[13]** Level 2
 - **[14]** Cheat Codes

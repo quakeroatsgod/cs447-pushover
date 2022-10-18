@@ -26,22 +26,6 @@ public class PlayingState extends BasicGameState {
     @Override
     public void init(GameContainer container, StateBasedGame game) throws SlickException {
         Pushover pushover = (Pushover)game;
-        Scanner sc=null;
-        try{sc = new Scanner(new File("src/pushover/res/grid-layout.txt"));}
-        catch(Exception CannotOpenFile){
-            CannotOpenFile.printStackTrace();
-        }
-        int ID_counter=0;
-        for(int x=0; x<20; x++){
-            for(int y=0; y<20; y++){
-                try{
-                    if(sc.hasNext()){
-                        pushover.grid.add(new Grid(sc.next(),x,y,ID_counter++));
-                    }
-                }catch(NullPointerException e){ e.printStackTrace();}
-            }
-        }
-        sc.close();
     }
 
     /**
@@ -142,6 +126,18 @@ public class PlayingState extends BasicGameState {
             }
         }
         pushover.boulder.update(pushover,delta);
+        int bol_ID = pushover.boulder.grid_ID;
+        //If the boulder is stuck in a corner of walls, the player loses a life (since the
+        //boulder can never get unstuck)
+        if( (!pushover.grid.get(bol_ID-1).walkable && !pushover.grid.get(bol_ID+20).walkable)
+        || (!pushover.grid.get(bol_ID-1).walkable && !pushover.grid.get(bol_ID-20).walkable)
+        || (!pushover.grid.get(bol_ID+1).walkable && !pushover.grid.get(bol_ID+20).walkable)
+        || (!pushover.grid.get(bol_ID+1).walkable && !pushover.grid.get(bol_ID-20).walkable)){
+            pushover.lives_left--;
+            //Restart level if there are still lives left. Enter 
+            pushover.state = pushover.lives_left == 0 ? 1 : 3;
+            pushover.enterState(Pushover.FREEZESCREENSTATE, new EmptyTransition(), new EmptyTransition());
+        }
         pushover.player.update(pushover,delta);
     }
 
@@ -215,8 +211,26 @@ public class PlayingState extends BasicGameState {
     }
 
     private void initLevel(Pushover pushover, int level){
+        //Reset level by removing old grid
+        pushover.grid.clear();
+        Scanner sc=null;
+        int ID_counter=0;
         switch(level){
-            case 1:
+            case 1: 
+                try{sc = new Scanner(new File("src/pushover/res/grid-layout.txt"));}
+                catch(Exception CannotOpenFile){
+                    CannotOpenFile.printStackTrace();
+                }
+                for(int x=0; x<20; x++){
+                    for(int y=0; y<20; y++){
+                        try{
+                            if(sc.hasNext()){
+                                pushover.grid.add(new Grid(sc.next(),x,y,ID_counter++));
+                            }
+                        }catch(NullPointerException e){ e.printStackTrace();}
+                    }
+                }
+                sc.close();
         }
     }
     
