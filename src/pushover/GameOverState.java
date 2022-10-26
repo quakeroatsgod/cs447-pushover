@@ -33,7 +33,8 @@ public class GameOverState extends BasicGameState {
         g.drawImage(ResourceManager.getImage(Pushover.GAMEOVER_SCREEN_RES), 0, 0);
         g.drawString("Lives Left: "+pushover.lives_left, 100,10);
         g.drawString("Enemies left: "+pushover.enemy_count, 250,10);
-        g.drawString("Level: "+pushover.level, 400,10);
+        g.drawString("Level: "+pushover.level, 390,10);    
+        g.drawString("Score: "+pushover.score, 480,10);
     }
 
     @Override

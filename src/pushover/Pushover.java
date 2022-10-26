@@ -28,6 +28,7 @@ public class Pushover extends StateBasedGame {
     public int lives_left=3;
     public int enemy_count=5;
     public Boulder boulder;
+    public int score=0;
     //Resource strings
     public static final String STARTUP_SCREEN_RES = "pushover/res/startup.png";
     public static final String WALL_RES = "pushover/res/wall.png";

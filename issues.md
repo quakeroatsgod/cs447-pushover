@@ -16,9 +16,9 @@
 - **[14]** Level 2
 - **[15]** Cheat Codes
 - **[16]** Refactor / Adjust all speeds
+- **[17]** High Score
 
 
 ## Open Issues ##
-- **[17]** High Bar Items
 - **[]** 
 
