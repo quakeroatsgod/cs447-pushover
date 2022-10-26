@@ -23,7 +23,7 @@ public class WinState extends BasicGameState {
     public void enter(GameContainer container, StateBasedGame game) {
 		Pushover pushover = (Pushover)game;
         pushover.level++;
-        if(pushover.level==2)   pushover.level=1;
+        if(pushover.level==3)   pushover.level=1;
     }
     @Override
     public void init(GameContainer container, StateBasedGame game) throws SlickException {
@@ -45,7 +45,7 @@ public class WinState extends BasicGameState {
 		Pushover pushover = (Pushover)game;
 		//Await user input to start the game
 		if (input.isKeyDown(Input.KEY_SPACE)){ 	
-            pushover.enterState(Pushover.STARTUPSTATE, new EmptyTransition(), new HorizontalSplitTransition());
+            pushover.enterState(Pushover.PLAYINGSTATE, new EmptyTransition(), new HorizontalSplitTransition());
         }
     }
 }
