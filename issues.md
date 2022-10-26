@@ -13,10 +13,10 @@
 - **[11]** Add lives
 - **[12]** Add lose condition if boulder is stuck in corner
 - **[13]** Finish desigining Level 1
+- **[14]** Level 2
 
 
 ## Open Issues ##
-- **[14]** Level 2
 - **[15]** Cheat Codes
 - **[16]** High Bar Items
 - **[]** 

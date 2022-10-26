@@ -17,7 +17,7 @@ public class Pushover extends StateBasedGame {
     public static final int WINSTATE = 2;
     public static final int GAMEOVERSTATE = 3;
     public static final int FREEZESCREENSTATE = 4;
-    public int level=1;
+    public int level=2;
     public int state=0;
     public final int ScreenWidth;
     public final int ScreenHeight;

@@ -38,21 +38,6 @@ public class PlayingState extends BasicGameState {
         highlight_flag=false;
         Pushover pushover = (Pushover)game;
         initLevel(pushover, pushover.level);
-
-        pushover.player = new Player(pushover.grid.get(204));
-        pushover.boulder = new Boulder(pushover.grid.get(205));
-        pushover.enemies = new ArrayList<Enemy>(5);
-        pushover.powerups = new ArrayList<Powerup>(2);
-        
-        pushover.enemies.add(new Enemy(pushover.grid.get(21)));
-        pushover.enemies.add(new Enemy(pushover.grid.get(361)));
-        pushover.enemies.add(new Enemy(pushover.grid.get(38)));
-        pushover.enemies.add(new Enemy(pushover.grid.get(378)));
-        pushover.enemies.add(new Enemy(pushover.grid.get(190)));
-        pushover.powerups.add(new Powerup(pushover.grid.get(30), "Speed-powerup"));
-        pushover.powerups.add(new Powerup(pushover.grid.get(209), "Freeze-powerup"));
-
-
     }
     @Override
     public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
@@ -222,7 +207,7 @@ public class PlayingState extends BasicGameState {
         int ID_counter=0;
         switch(level){
             case 1: 
-                try{sc = new Scanner(new File("src/pushover/res/grid-layout.txt"));}
+                try{sc = new Scanner(new File("src/pushover/res/grid-layout-1.txt"));}
                 catch(Exception CannotOpenFile){
                     CannotOpenFile.printStackTrace();
                 }
@@ -236,6 +221,45 @@ public class PlayingState extends BasicGameState {
                     }
                 }
                 sc.close();
+                pushover.player = new Player(pushover.grid.get(204));
+                pushover.boulder = new Boulder(pushover.grid.get(205));
+                pushover.enemies = new ArrayList<Enemy>(5);
+                pushover.powerups = new ArrayList<Powerup>(2);
+                pushover.enemies.add(new Enemy(pushover.grid.get(21)));
+                pushover.enemies.add(new Enemy(pushover.grid.get(361)));
+                pushover.enemies.add(new Enemy(pushover.grid.get(38)));
+                pushover.enemies.add(new Enemy(pushover.grid.get(378)));
+                pushover.enemies.add(new Enemy(pushover.grid.get(190)));
+                pushover.powerups.add(new Powerup(pushover.grid.get(30), "Speed-powerup"));
+                pushover.powerups.add(new Powerup(pushover.grid.get(209), "Freeze-powerup"));
+                break;
+            case 2: 
+                try{sc = new Scanner(new File("src/pushover/res/grid-layout-2.txt"));}
+                catch(Exception CannotOpenFile){
+                    CannotOpenFile.printStackTrace();
+                }
+                for(int x=0; x<20; x++){
+                    for(int y=0; y<20; y++){
+                        try{
+                            if(sc.hasNext()){
+                                pushover.grid.add(new Grid(sc.next(),x,y,ID_counter++));
+                            }
+                        }catch(NullPointerException e){ e.printStackTrace();}
+                    }
+                }
+                sc.close();
+                pushover.player = new Player(pushover.grid.get(146));
+                pushover.boulder = new Boulder(pushover.grid.get(272));
+                pushover.enemies = new ArrayList<Enemy>(5);
+                pushover.powerups = new ArrayList<Powerup>(2);
+                pushover.enemies.add(new Enemy(pushover.grid.get(21)));
+                pushover.enemies.add(new Enemy(pushover.grid.get(361)));
+                pushover.enemies.add(new Enemy(pushover.grid.get(38)));
+                pushover.enemies.add(new Enemy(pushover.grid.get(378)));
+                pushover.enemies.add(new Enemy(pushover.grid.get(209)));
+                pushover.powerups.add(new Powerup(pushover.grid.get(49), "Speed-powerup"));
+                pushover.powerups.add(new Powerup(pushover.grid.get(349), "Speed-powerup"));
+                pushover.powerups.add(new Powerup(pushover.grid.get(209), "Freeze-powerup"));
         }
     }
     
