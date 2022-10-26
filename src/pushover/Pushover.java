@@ -41,6 +41,7 @@ public class Pushover extends StateBasedGame {
     public static final String FREEZE_POWERUP_RES = "pushover/res/freeze-powerup.png";
     public static final String ICE_CUBE_RES = "pushover/res/ice-cube.png";
     public static final String PATH_HIGHLIGHT_RES = "pushover/res/path-highlight.png";
+    public static final String TREE_RES = "pushover/res/tree.png";
     //If there is an "M", it's the "moving" texture
     public static final String PLAYER_F_RES = "pushover/res/player/player-forward.png";
     public static final String PLAYER_FM_RES = "pushover/res/player/player-forward-moving.png";
@@ -108,6 +109,7 @@ public class Pushover extends StateBasedGame {
         ResourceManager.loadImage(ENEMY_1_B_RES);
         ResourceManager.loadImage(ENEMY_1_BM_RES);
         ResourceManager.loadImage(PATH_HIGHLIGHT_RES);
+        ResourceManager.loadImage(TREE_RES);
     }
 
     public static void main(String[] args){

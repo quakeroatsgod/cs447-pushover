@@ -39,25 +39,30 @@ public class PlayingState extends BasicGameState {
         Pushover pushover = (Pushover)game;
         initLevel(pushover, pushover.level);
 
-        pushover.player = new Player(pushover.grid.get(283));
-        pushover.boulder = new Boulder(pushover.grid.get(285));
+        pushover.player = new Player(pushover.grid.get(204));
+        pushover.boulder = new Boulder(pushover.grid.get(205));
         pushover.enemies = new ArrayList<Enemy>(5);
         pushover.powerups = new ArrayList<Powerup>(2);
         
-        // pushover.enemies.add(new Enemy(pushover.grid.get(44)));
-        // pushover.enemies.add(new Enemy(pushover.grid.get(215)));
-        // pushover.enemies.add(new Enemy(pushover.grid.get(264)));
-        // pushover.enemies.add(new Enemy(pushover.grid.get(344)));
-        pushover.enemies.add(new Enemy(pushover.grid.get(164)));
-        pushover.powerups.add(new Powerup(pushover.grid.get(234), "Speed-powerup"));
-        pushover.powerups.add(new Powerup(pushover.grid.get(214), "Freeze-powerup"));
+        pushover.enemies.add(new Enemy(pushover.grid.get(21)));
+        pushover.enemies.add(new Enemy(pushover.grid.get(361)));
+        pushover.enemies.add(new Enemy(pushover.grid.get(38)));
+        pushover.enemies.add(new Enemy(pushover.grid.get(378)));
+        pushover.enemies.add(new Enemy(pushover.grid.get(190)));
+        pushover.powerups.add(new Powerup(pushover.grid.get(30), "Speed-powerup"));
+        pushover.powerups.add(new Powerup(pushover.grid.get(209), "Freeze-powerup"));
 
 
     }
     @Override
     public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
         Pushover pushover = (Pushover)game;
-        for(Grid grid_cell : pushover.grid)  grid_cell.render(g);
+        for(Grid grid_cell : pushover.grid)  {
+            //Debug draw grid tile numbers
+            // g.drawString(""+grid_cell.getID(), grid_cell.getX()-16, grid_cell.getY()-16);
+            //Grid textures
+            grid_cell.render(g);
+        };
         pushover.player.render(g);
         pushover.boulder.render(g);
         for(Enemy enemy : pushover.enemies) enemy.render(g);

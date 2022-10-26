@@ -12,11 +12,12 @@
 - **[10]** Enemy AI highlighted path
 - **[11]** Add lives
 - **[12]** Add lose condition if boulder is stuck in corner
+- **[13]** Finish desigining Level 1
+
 
 ## Open Issues ##
-- **[12]** Finish desigining Level 1
-- **[13]** Level 2
-- **[14]** Cheat Codes
-- **[15]** High Bar Items
+- **[14]** Level 2
+- **[15]** Cheat Codes
+- **[16]** High Bar Items
 - **[]** 
 

@@ -24,10 +24,20 @@ public class Grid extends Entity{
         switch(texture){
             case "BORDER":
             case "WALL":
+            //TODO
                 addImageWithBoundingBox(ResourceManager.getImage(Pushover.WALL_RES));
+                // addImageWithBoundingBox(ResourceManager.getImage(Pushover.ICE_CUBE_RES));
+
                 this.walkable=false;
                 //The walkable checker makes sure you can't walk on a wall, so
                 //a cost of -1 is ok.
+                this.travel_cost=-1.0f;
+                break;
+            //Similar to the wall, but with a tree texture
+            case "TREE":
+                addImageWithBoundingBox(ResourceManager.getImage(Pushover.BLANK_RES));
+                addImageWithBoundingBox(ResourceManager.getImage(Pushover.TREE_RES));
+                this.walkable=false;
                 this.travel_cost=-1.0f;
                 break;
             //Extra cost to move on it for players, half cost for enemies
@@ -43,6 +53,7 @@ public class Grid extends Entity{
                 this.travel_cost=1.0f;
                 break;
         }
+
     }
     /**
      * Removes the highlighted texture from the grid
