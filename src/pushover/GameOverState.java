@@ -13,31 +13,28 @@ import org.newdawn.slick.state.transition.HorizontalSplitTransition;
 import jig.Vector;
 import pushover.Pushover;
 
-public class StartUpState extends BasicGameState {
+public class GameOverState extends BasicGameState {
     @Override
     public int getID() {
-        return Pushover.STARTUPSTATE;
+        return Pushover.GAMEOVERSTATE;
     }
 
     @Override
     public void init(GameContainer container, StateBasedGame game) throws SlickException {
 
     }
-
     @Override
 	public void enter(GameContainer container, StateBasedGame game) {
         Pushover pushover = (Pushover)game;
-        pushover.lives_left=3;
     }
     @Override
     public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
         Pushover pushover = (Pushover)game;
-        g.drawImage(ResourceManager.getImage(Pushover.STARTUP_SCREEN_RES), 50, 200);
+        g.drawImage(ResourceManager.getImage(Pushover.GAMEOVER_SCREEN_RES), 0, 0);
         g.drawString("Lives Left: "+pushover.lives_left, 100,10);
-        g.drawString("Enemies left: "+pushover.enemy_count, 240,10);
+        g.drawString("Enemies left: "+pushover.enemy_count, 250,10);
         g.drawString("Level: "+pushover.level, 390,10);    
-        g.drawString("Score: "+pushover.score, 480,10);    
-
+        g.drawString("Score: "+pushover.score, 480,10);
     }
 
     @Override
@@ -46,7 +43,7 @@ public class StartUpState extends BasicGameState {
 		Pushover pushover = (Pushover)game;
 		//Await user input to start the game
 		if (input.isKeyDown(Input.KEY_SPACE)){ 	
-            pushover.enterState(Pushover.PLAYINGSTATE, new EmptyTransition(), new HorizontalSplitTransition());
+            pushover.enterState(Pushover.STARTUPSTATE, new EmptyTransition(), new HorizontalSplitTransition());
     
         }
     }
