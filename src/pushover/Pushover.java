@@ -17,7 +17,7 @@ public class Pushover extends StateBasedGame {
     public static final int WINSTATE = 2;
     public static final int GAMEOVERSTATE = 3;
     public static final int FREEZESCREENSTATE = 4;
-    public int level=2;
+    public int level=1;
     public int state=0;
     public final int ScreenWidth;
     public final int ScreenHeight;
@@ -27,7 +27,6 @@ public class Pushover extends StateBasedGame {
     public Player player;
     public int lives_left=3;
     public int enemy_count=5;
-    //TODO maybe 2 boulders instead of 1
     public Boulder boulder;
     //Resource strings
     public static final String STARTUP_SCREEN_RES = "pushover/res/startup.png";
