@@ -77,6 +77,9 @@ public class Powerup extends Entity{
                 }
                 break;
         }
-        
+    }
+
+    public String getType(){
+        return this.type;
     }
 }

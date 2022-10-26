@@ -1,6 +1,8 @@
 package pushover;
 
 import java.util.Iterator;
+import java.util.Random;
+
 import jig.ResourceManager;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -20,7 +22,8 @@ public class PlayingState extends BasicGameState {
     
     private boolean highlight_flag=false;
     private boolean enemy_movement_flag=true;
-
+    private int freeze_respawn_timer=0;
+    private int speed_respawn_timer=0;
     @Override
     public int getID() {
         return Pushover.PLAYINGSTATE;
@@ -67,6 +70,9 @@ public class PlayingState extends BasicGameState {
         Pushover pushover = (Pushover)game;
         Input input = container.getInput();
         checkInput(input, pushover);
+        if(speed_respawn_timer > 0)     speed_respawn_timer-=delta;
+        if(freeze_respawn_timer > 0)     freeze_respawn_timer-=delta;
+        respawnPowerups(pushover, pushover.level);
         //If all enemies are destroyed, move to win state
         if(pushover.enemies.isEmpty()){
             pushover.state=2;
@@ -105,7 +111,13 @@ public class PlayingState extends BasicGameState {
             }
         }
         //Apply powerup and remove it from the game if the player steps on it
-        for(Powerup powerup : pushover.powerups)    if (powerup.grid_ID == pushover.player.grid_ID) powerup.applyPowerup(pushover);
+        for(Powerup powerup : pushover.powerups)    if (powerup.grid_ID == pushover.player.grid_ID) {
+            //Start respawn timer
+            if(powerup.getType()=="Freeze-powerup")     freeze_respawn_timer = 20000;
+            else speed_respawn_timer = 90000;
+
+            powerup.applyPowerup(pushover);
+        }
         for (Iterator<Powerup> pow_iter = pushover.powerups.iterator(); pow_iter.hasNext();) {
             if (pow_iter.next().grid_ID == pushover.player.grid_ID){
                 pow_iter.remove();
@@ -305,4 +317,28 @@ public class PlayingState extends BasicGameState {
         }
     }
 
+    private void respawnPowerups(Pushover pushover, int level){
+        if(speed_respawn_timer < 0){
+            speed_respawn_timer=0;
+            switch(level){
+                case 1:
+                    pushover.powerups.add(new Powerup(pushover.grid.get(30), "Speed-powerup"));
+                    break;
+                case 2:
+                    pushover.powerups.add(new Powerup(pushover.grid.get(349), "Speed-powerup"));
+                    break;
+            }
+        }
+        if(freeze_respawn_timer < 0){
+            freeze_respawn_timer=0;
+            switch(level){
+                case 1:
+                    pushover.powerups.add(new Powerup(pushover.grid.get(209), "Freeze-powerup"));
+                    break;
+                case 2:
+                    pushover.powerups.add(new Powerup(pushover.grid.get(209), "Freeze-powerup"));
+                    break;
+            }
+        }
+    }
 }

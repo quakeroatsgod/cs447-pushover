@@ -17,7 +17,7 @@
 - **[15]** Cheat Codes
 - **[16]** Refactor / Adjust all speeds
 - **[17]** High Score
-
+- **[18]** Add powerup respawn
 
 ## Open Issues ##
 - **[]** 
