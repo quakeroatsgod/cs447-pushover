@@ -57,7 +57,9 @@ public class PlayingState extends BasicGameState {
         for(Powerup powerup : pushover.powerups) powerup.render(g);
         g.drawString("Lives Left: "+pushover.lives_left, 100,10);
         g.drawString("Enemies left: "+pushover.enemy_count, 250,10);
-        g.drawString("Level: "+pushover.level, 400,10);
+        g.drawString("Level: "+pushover.level, 390,10);    
+        g.drawString("Score: "+pushover.score, 480,10);    
+
     }
 
     @Override
@@ -68,6 +70,7 @@ public class PlayingState extends BasicGameState {
         //If all enemies are destroyed, move to win state
         if(pushover.enemies.isEmpty()){
             pushover.state=2;
+            pushover.score+=500;
             pushover.enterState(Pushover.FREEZESCREENSTATE, new EmptyTransition(), new EmptyTransition());
         }
         //If there are still enemies left remaining
@@ -75,6 +78,7 @@ public class PlayingState extends BasicGameState {
             for (Iterator<Enemy> en_iter = pushover.enemies.iterator(); en_iter.hasNext();) 
                 if (en_iter.next().grid_ID == pushover.boulder.grid_ID){
                     en_iter.remove();
+                    pushover.score+=50;
                     pushover.enemy_count--;
                 }
             for(Enemy enemy : pushover.enemies)   {
@@ -91,9 +95,11 @@ public class PlayingState extends BasicGameState {
                 
                 if(enemy.grid_ID==pushover.player.grid_ID)  {
                     pushover.lives_left--;
+                    pushover.score-=500;
                     //Restart level if there are still lives left. Enter 
                     pushover.state = pushover.lives_left <= 0 ? 1 : 3;
                     pushover.enterState(Pushover.FREEZESCREENSTATE, new EmptyTransition(), new EmptyTransition());
+                    break;
                 }
                 
             }
