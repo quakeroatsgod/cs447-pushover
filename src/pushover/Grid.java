@@ -24,10 +24,7 @@ public class Grid extends Entity{
         switch(texture){
             case "BORDER":
             case "WALL":
-            //TODO
                 addImageWithBoundingBox(ResourceManager.getImage(Pushover.WALL_RES));
-                // addImageWithBoundingBox(ResourceManager.getImage(Pushover.ICE_CUBE_RES));
-
                 this.walkable=false;
                 //The walkable checker makes sure you can't walk on a wall, so
                 //a cost of -1 is ok.
