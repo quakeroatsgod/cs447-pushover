@@ -76,8 +76,8 @@ public class Enemy extends Entity {
         //Gets the direction from the old to the new grid 'point'
         //Deep snow tile, double speed
         if(grid_point_new.getType().equals("DEEP_SNOW")) {
-            this.velocity = new Vector(dir_x * (float)(32.0f / 300.0f), dir_y * (float)(32.0f / 300.0f));
-            this.movement_timer=300;
+            this.velocity = new Vector(dir_x * (float)(32.0f / 500.0f), dir_y * (float)(32.0f / 500.0f));
+            this.movement_timer=500;
         }
         //Blank tile
         else{
@@ -87,8 +87,8 @@ public class Enemy extends Entity {
         }
         //If speed powerup is applied
         if(this.speed_timer > 0){
-            this.velocity = new Vector(dir_x * (float)(32.0f / 150.0f), dir_y * (float)(32.0f / 150.0f));
-            this.movement_timer=150;
+            this.velocity = new Vector((float)(velocity.getX() * 1.2), (float)(velocity.getY() * 1.2));
+            this.movement_timer/=1.2;
         }
         return true;
     }
@@ -262,7 +262,7 @@ public class Enemy extends Entity {
             this.walking=true;
         }
         this.sprite_update_timer=300;
-        if(this.speed_timer > 0)  this.sprite_update_timer = 150;
+        if(this.speed_timer > 0)  this.sprite_update_timer/=1.2;
         if(this.isFrozen)  addImageWithBoundingBox(ResourceManager.getImage(Pushover.ICE_CUBE_RES));
     }
     /**

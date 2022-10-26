@@ -67,18 +67,18 @@ public class Player extends Entity {
         //Gets the direction from the old to the new grid 'point'
         //Deep snow tile, half the speed.
         if(grid_point_new.getType().equals("DEEP_SNOW")) {
-            this.velocity = new Vector(dir_x * (float)(32.0f / 450.0f), dir_y * (float)(32.0f / 450.0f));
-            this.movement_timer=450;
+            this.velocity = new Vector(dir_x * (float)(32.0f / 300.0f), dir_y * (float)(32.0f / 300.0f));
+            this.movement_timer=300;
         }
         //Blank tile
         else{
-            this.velocity = new Vector(dir_x * (float)(32.0f / 150.0f), dir_y * (float)(32.0f / 150.0f));
-            //Set movement timer to 150 ms
-            this.movement_timer=150;
+            this.velocity = new Vector(dir_x * (float)(32.0f / 200.0f), dir_y * (float)(32.0f / 200.0f));
+            //Set movement timer to 200 ms
+            this.movement_timer=200;
         }
         if(this.powerup_timer > 0 && powerup_type.equals("Speed-powerup")){
-            this.velocity = new Vector(dir_x * (float)(32.0f / 75.0f), dir_y * (float)(32.0f / 75.0f));
-            this.movement_timer=75;
+            this.velocity = new Vector(velocity.getX() * 2, velocity.getY() * 2);
+            this.movement_timer/=2;
         }
         return true;
     }
@@ -163,8 +163,8 @@ public class Player extends Entity {
             }
             this.walking=true;
         }
-        this.sprite_update_timer=75;
-        if(this.powerup_timer > 0 && powerup_type.equals("Speed-powerup")) this.sprite_update_timer=37;
+        this.sprite_update_timer=100;
+        if(this.powerup_timer > 0 && powerup_type.equals("Speed-powerup")) this.sprite_update_timer/=2;
     }
     /**
      * Clear any and all player sprites. A bit over kill, but it ensures smooth sprite movement

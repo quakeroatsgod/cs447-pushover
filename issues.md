@@ -15,11 +15,10 @@
 - **[13]** Finish desigining Level 1
 - **[14]** Level 2
 - **[15]** Cheat Codes
+- **[16]** Refactor / Adjust all speeds
 
 
 ## Open Issues ##
-- **[16]** Adjust all speeds
-- **[17]** Cleanup/refactor any quirkyness
-- **[18]** High Bar Items
+- **[17]** High Bar Items
 - **[]** 
 
