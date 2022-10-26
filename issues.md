@@ -14,10 +14,12 @@
 - **[12]** Add lose condition if boulder is stuck in corner
 - **[13]** Finish desigining Level 1
 - **[14]** Level 2
+- **[15]** Cheat Codes
 
 
 ## Open Issues ##
-- **[15]** Cheat Codes
-- **[16]** High Bar Items
+- **[16]** Adjust all speeds
+- **[17]** Cleanup/refactor any quirkyness
+- **[18]** High Bar Items
 - **[]** 
 

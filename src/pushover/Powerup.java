@@ -50,4 +50,33 @@ public class Powerup extends Entity{
         }
         
     }
+
+    /**
+     * Applies a powerup timer and the type of power to each enemy and the player.
+     * Static method that is used in cheat codes
+     * @param pushover
+     */
+    public static void applyPowerup(Pushover pushover, String powerup_type){
+        Random rng = new Random();
+        int time=0;
+        switch(powerup_type){
+            case "Speed-powerup":
+                //Duration is 15-25 seconds
+                time = ((rng.nextInt() % 11) + 15) * 1000;
+                pushover.player.powerup_timer=time;
+                pushover.player.powerup_type=powerup_type;
+                for(Enemy enemy : pushover.enemies) {
+                    enemy.speed_timer=time;
+                }
+                break;
+            case "Freeze-powerup":
+                //Duration is 3-7 seconds
+                time = ((rng.nextInt() % 5) + 3) * 1000;
+                for(Enemy enemy : pushover.enemies) {
+                    enemy.freezeEnemy(time);
+                }
+                break;
+        }
+        
+    }
 }

@@ -17,7 +17,10 @@ import java.util.Scanner;
 import java.util.Stack;
 
 public class PlayingState extends BasicGameState {
+    
     private boolean highlight_flag=false;
+    private boolean enemy_movement_flag=true;
+
     @Override
     public int getID() {
         return Pushover.PLAYINGSTATE;
@@ -83,13 +86,13 @@ public class PlayingState extends BasicGameState {
                     grid_point.unhighlight(pushover,highlight_flag);
                 }
                 //Move enemy if the movement timer is up
-                if(enemy.getRemainingTime() <= 0) enemy.moveUpdate(pushover);
+                if(enemy.getRemainingTime() <= 0) enemy.moveUpdate(pushover,enemy_movement_flag);
                 //If an enemy is on the same tile as the player, move to game over.
                 
                 if(enemy.grid_ID==pushover.player.grid_ID)  {
                     pushover.lives_left--;
                     //Restart level if there are still lives left. Enter 
-                    pushover.state = pushover.lives_left == 0 ? 1 : 3;
+                    pushover.state = pushover.lives_left <= 0 ? 1 : 3;
                     pushover.enterState(Pushover.FREEZESCREENSTATE, new EmptyTransition(), new EmptyTransition());
                 }
                 
@@ -191,15 +194,48 @@ public class PlayingState extends BasicGameState {
         }
         //------Cheat codes------------
         //Turn off enemy path highlighter
-        if(input.isKeyDown(Input.KEY_O))    {
+        if(input.isKeyDown(Input.KEY_C))    {
             highlight_flag=false;
             for(Grid grid_point : pushover.grid) grid_point.unhighlight(pushover, highlight_flag);
         }
         //Turn on enemy path highlighter
-        if(input.isKeyDown(Input.KEY_P))    highlight_flag=true;
-
+        if(input.isKeyDown(Input.KEY_V))    highlight_flag=true;
+        //Turn off enemy movement
+        if(input.isKeyDown(Input.KEY_Z))    enemy_movement_flag=false;
+        //Turn on enemy movement
+        if(input.isKeyDown(Input.KEY_X))    enemy_movement_flag=true;
+        //Applies speed power-up
+        if(input.isKeyDown(Input.KEY_B))    Powerup.applyPowerup(pushover, "Speed-powerup");
+        //Applies freeze power-up
+        if(input.isKeyDown(Input.KEY_N))    Powerup.applyPowerup(pushover, "Freeze-powerup");
+        //Starts level 1
+        if(input.isKeyDown(Input.KEY_1))    {
+            pushover.level=1;
+            pushover.state=3;
+            pushover.enterState(Pushover.FREEZESCREENSTATE, new EmptyTransition(), new EmptyTransition());   
+        }
+        //Starts level 2
+        if(input.isKeyDown(Input.KEY_2))    {
+            pushover.level=2;
+            pushover.state=3;
+            pushover.enterState(Pushover.FREEZESCREENSTATE, new EmptyTransition(), new EmptyTransition());   
+        }
+        //Win current level
+        if(input.isKeyDown(Input.KEY_3))    {
+            pushover.state=2;
+            pushover.enterState(Pushover.FREEZESCREENSTATE, new EmptyTransition(), new EmptyTransition());   
+        }
+        //Lose current level
+        if(input.isKeyDown(Input.KEY_4))    {
+            pushover.state=1;
+            pushover.enterState(Pushover.FREEZESCREENSTATE, new EmptyTransition(), new EmptyTransition());   
+        }
     }
-
+    /**
+     * Builds a level design layout based on the current level integer
+     * @param pushover
+     * @param level
+     */
     private void initLevel(Pushover pushover, int level){
         //Reset level by removing old grid
         pushover.grid.clear();
@@ -251,7 +287,7 @@ public class PlayingState extends BasicGameState {
                 pushover.player = new Player(pushover.grid.get(146));
                 pushover.boulder = new Boulder(pushover.grid.get(272));
                 pushover.enemies = new ArrayList<Enemy>(5);
-                pushover.powerups = new ArrayList<Powerup>(2);
+                pushover.powerups = new ArrayList<Powerup>(3);
                 pushover.enemies.add(new Enemy(pushover.grid.get(21)));
                 pushover.enemies.add(new Enemy(pushover.grid.get(361)));
                 pushover.enemies.add(new Enemy(pushover.grid.get(38)));
@@ -262,5 +298,5 @@ public class PlayingState extends BasicGameState {
                 pushover.powerups.add(new Powerup(pushover.grid.get(209), "Freeze-powerup"));
         }
     }
-    
+
 }

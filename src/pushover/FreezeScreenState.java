@@ -13,6 +13,12 @@ import org.newdawn.slick.state.transition.HorizontalSplitTransition;
 import jig.Vector;
 import pushover.Pushover;
 
+/*
+ * Transitionary state that pauses the game and processes where to go next. If 
+ * the player has lives left, they will be sent back to the playing state. If the
+ * player wins a level, they are sent to the win state. If they player has no more
+ * lives, they are sent to the game over state.
+ */
 public class FreezeScreenState extends BasicGameState {
     private int timer;
     @Override
