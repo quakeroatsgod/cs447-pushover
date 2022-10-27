@@ -18,7 +18,7 @@
 - **[16]** Refactor / Adjust all speeds
 - **[17]** High Score
 - **[18]** Add powerup respawn
-
+- **[19]** Fix powerup timer being 0 seconds
 ## Open Issues ##
 - **[]** 
 
