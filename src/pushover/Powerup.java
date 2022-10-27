@@ -3,6 +3,7 @@ import jig.Entity;
 import jig.ResourceManager;
 import jig.Vector;
 import java.util.Random;
+import java.io.*;
 
 public class Powerup extends Entity{
     
@@ -33,7 +34,7 @@ public class Powerup extends Entity{
         switch(this.type){
             case "Speed-powerup":
                 //Duration is 15-25 seconds
-                time = ((rng.nextInt() % 11) + 15) * 1000;
+                time = Math.abs(((rng.nextInt() % 11)) * 1000) + 15000;
                 pushover.player.powerup_timer=time;
                 pushover.player.powerup_type=this.type;
                 for(Enemy enemy : pushover.enemies) {
@@ -42,10 +43,12 @@ public class Powerup extends Entity{
                 break;
             case "Freeze-powerup":
                 //Duration is 3-7 seconds
-                time = ((rng.nextInt() % 5) + 3) * 1000;
+                time = Math.abs(((rng.nextInt() % 5)) * 1000) + 3000;
                 for(Enemy enemy : pushover.enemies) {
                     enemy.freezeEnemy(time);
                 }
+                System.out.println(""+time);
+
                 break;
         }
         
@@ -62,7 +65,7 @@ public class Powerup extends Entity{
         switch(powerup_type){
             case "Speed-powerup":
                 //Duration is 15-25 seconds
-                time = ((rng.nextInt() % 11) + 15) * 1000;
+                time = Math.abs(((rng.nextInt() % 11)) * 1000) + 15000;
                 pushover.player.powerup_timer=time;
                 pushover.player.powerup_type=powerup_type;
                 for(Enemy enemy : pushover.enemies) {
@@ -71,7 +74,8 @@ public class Powerup extends Entity{
                 break;
             case "Freeze-powerup":
                 //Duration is 3-7 seconds
-                time = ((rng.nextInt() % 5) + 3) * 1000;
+                time = Math.abs(((rng.nextInt() % 5)) * 1000) + 3000;
+                System.out.println(time);
                 for(Enemy enemy : pushover.enemies) {
                     enemy.freezeEnemy(time);
                 }
