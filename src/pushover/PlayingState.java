@@ -111,16 +111,15 @@ public class PlayingState extends BasicGameState {
             }
         }
         //Apply powerup and remove it from the game if the player steps on it
-        for(Powerup powerup : pushover.powerups)    if (powerup.grid_ID == pushover.player.grid_ID) {
-            //Start respawn timer
-            if(powerup.getType()=="Freeze-powerup")     freeze_respawn_timer = 20000;
-            else speed_respawn_timer = 90000;
+        for(Powerup powerup : pushover.powerups)    {
+            if (powerup.grid_ID == pushover.player.grid_ID) {
+                //Start respawn timer
+                if(powerup.getType()=="Freeze-powerup")     freeze_respawn_timer = 20000;
+                else speed_respawn_timer = 90000;
 
-            powerup.applyPowerup(pushover);
-        }
-        for (Iterator<Powerup> pow_iter = pushover.powerups.iterator(); pow_iter.hasNext();) {
-            if (pow_iter.next().grid_ID == pushover.player.grid_ID){
-                pow_iter.remove();
+                powerup.applyPowerup(pushover);
+                pushover.powerups.remove(powerup);
+                break;
             }
         }
         //I know this looks weird... unhighlight, and then re highlight the tiles? Well, this is

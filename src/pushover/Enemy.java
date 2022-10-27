@@ -125,22 +125,25 @@ public class Enemy extends Entity {
      * @param pushover
      */
     public void moveUpdate(Pushover pushover, boolean can_move){
-        if(this.move_order.empty() || this.player_last_known_loc != pushover.player.grid_ID){
-            //Get new path order stack
-            this.move_order=this.pathToPlayer(pushover, pushover.grid.get(this.grid_ID),new ArrayList<Integer>(1),pushover.player.grid_ID);
-            this.player_last_known_loc=pushover.player.grid_ID;
-        }
-        else if(this.grid_ID!=pushover.player.grid_ID){
-            int direction=-1;
-            if(can_move){
-                int next_grid_ID=this.move_order.pop();
-                //ifs in order of right, left, down, up directions
-                if(next_grid_ID+20 == this.grid_ID) direction=0;
-                if(next_grid_ID-20 == this.grid_ID) direction=1;
-                if(next_grid_ID-1 == this.grid_ID) direction=2;
-                if(next_grid_ID+1 == this.grid_ID) direction=3;
-                //Checks if the movement cheat code is turned on or not
-                this.move(pushover.grid.get(next_grid_ID), pushover.grid.get(this.grid_ID), direction);
+        //Don't move if frozen
+        if(!this.isFrozen){
+            if(this.move_order.empty() || this.player_last_known_loc != pushover.player.grid_ID){
+                //Get new path order stack
+                this.move_order=this.pathToPlayer(pushover, pushover.grid.get(this.grid_ID),new ArrayList<Integer>(1),pushover.player.grid_ID);
+                this.player_last_known_loc=pushover.player.grid_ID;
+            }
+            else if(this.grid_ID!=pushover.player.grid_ID){
+                int direction=-1;
+                if(can_move){
+                    int next_grid_ID=this.move_order.pop();
+                    //ifs in order of right, left, down, up directions
+                    if(next_grid_ID+20 == this.grid_ID) direction=0;
+                    if(next_grid_ID-20 == this.grid_ID) direction=1;
+                    if(next_grid_ID-1 == this.grid_ID) direction=2;
+                    if(next_grid_ID+1 == this.grid_ID) direction=3;
+                    //Checks if the movement cheat code is turned on or not
+                    this.move(pushover.grid.get(next_grid_ID), pushover.grid.get(this.grid_ID), direction);
+                }
             }
         }
     }
