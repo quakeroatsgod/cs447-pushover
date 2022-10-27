@@ -43,7 +43,8 @@ If all enemies are destroyed, the game advances to the next level.
 - [x] Life Tracker
 - [x] Grid-based, maze-like map design
 
-
+## Extra high bar items
+- [x] Player score (lose points by losing lives. Gain points by destroying enmemies).
 ## Attributions
 - Snowball, wall, blank tile, and deep snow textures taken from https://opengameart.org
 - Character sprites licensed under CC BY-SA 3.0 taken from https://route1rodent.itch.io/16x16-rpg-character-sprite-sheet 
